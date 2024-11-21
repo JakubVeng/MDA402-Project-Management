@@ -14,7 +14,7 @@ export const getTodayReservation = async () => {
         .where(
             and(lte(reservations.startDate, currentTimestamp), gt(reservations.endDate, currentTimestamp))
         );
-    revalidatePath('/', 'layout');
+    //revalidatePath('/', 'layout');
     return todayReservations;
 };
 
@@ -26,7 +26,7 @@ export const getTodayCheckIns = async () => {
         .where(
             and(eq(reservations.startDate, currentDate))
         );
-    revalidatePath('/', 'layout');
+    //revalidatePath('/', 'layout');
     return todayReservations;
 };
 
