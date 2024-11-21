@@ -4,6 +4,4 @@ const nextConfig = {
         domains: ['cdn.discordapp.com', 'avatars.githubusercontent.com'],
     },
 };
-
-
 export default nextConfig;

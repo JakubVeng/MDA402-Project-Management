@@ -1,51 +1,45 @@
 import Link from "next/link";
-import {CurrentDate} from "@/components/dashboard/current-date";
-import {getTodayReservation} from "@/components/dashboard/action";
-import {TodayInfo} from "@/components/dashboard/today-info";
-import ReservationsTable from "@/components/dashboard/reservations-table";
-import {Reservation} from "@/db/schema/reservations";
-import {CreateReservationForm} from "@/components/create-reservation/create-reservation-form";
-import {ReservationDialog} from "@/components/reservation-detail/reservation-dialog";
 import React from "react";
-import {Bed, Calendar, List} from "lucide-react";
+import {LogIn, GraduationCap} from "lucide-react";
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'RM - Home',
+    title: 'MDA402 Project Management - Home',
     description: 'Home page'
 };
 
-export default async function Home() {
-    const reservations : Reservation[] = await getTodayReservation();
+const Home = () => {
 
     return (
-        <main className="flex flex-col min-h-screen p-10 w-screen">
-            <div className="flex md:flex-row flex-col w-full justify-between">
-                <div className="flex flex-col space-y-4">
-                    <CurrentDate />
-                    <TodayInfo />
+        <main className="flex flex-col items-center justify-center w-screen h-[calc(100vh-100px)]">
+            <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center p-10">
+                    <h1 className="flex text-6xl items-center justify-center p-10 font-semibold text-[#01aa00]">
+                        MDA402  
+                        <span className="text-primary text-[#0101bf]">&nbsp;Project Management</span>
+                    </h1>
+                    <p className="text-lg max-w-2xl text-center text-[#0101bf]">Welcome to the official page of MDA402 Project Management course. Discover more about managing your project.</p>
                 </div>
-                <div className="flex flex-col space-y-4"> {/* Right column */}
-                    <ReservationDialog create={true}>
-                        <CreateReservationForm initialData={null}/>
-                    </ReservationDialog>
-                    <Link href="/reservation/list" className="bg-blue-300 text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <List />
-                        Show all reservations
+                <div className="flex flex-row items-center space-x-8">
+                    <Link 
+                        href="/lectures" 
+                        className="bg-[#f3f2fe] text-[#01aa00] border-[#01aa00] border-2 text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:shadow-sm hover:shadow-[#01aa00] hover:bg-[#01aa00] hover:text-[#f3f2fe]"
+                    >
+                        <GraduationCap />
+                        View course materials
                     </Link>
-                    <Link href="/reservation/calendar" className="bg-blue-300 text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <Calendar />
-                        Show calendar
-                    </Link>
-                    <Link href="/manage" className="bg-white text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <Bed />
-                        Manage accomodation
+                    <Link 
+                        href="/practices" 
+                        className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:shadow-sm hover:shadow-blue-300 hover:bg-[#f3f2fe] hover:text-[#0101bf]"
+                    >
+                        <LogIn />
+                        Sign In
                     </Link>
                 </div>
             </div>
-
-            <ReservationsTable reservations={reservations} />
         </main>
     );
 }
+
+export default Home
