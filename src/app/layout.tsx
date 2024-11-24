@@ -5,7 +5,7 @@ import { Poppins } from 'next/font/google';
 
 import { Providers } from './providers';
 
-const inter = Poppins({ subsets: ['latin'], weight: ['400'] });
+const poppins = Poppins({ subsets: ['latin'], weight: ['400'] });
 
 export const metadata: Metadata = {
     title: 'MDA402 Project Management'
@@ -16,12 +16,13 @@ const RootLayout = async ({
                           }: Readonly<{
     children: React.ReactNode;
 }>) => {
+    
     return (
         <html lang="en">
             <body
-                className={`flex min-h-screen flex-col bg-[#f3f2fe] ${inter.className}`}
+                className={`flex min-h-screen flex-col bg-[#f3f2fe] ${poppins.className}`}
             >
-                <main className="container py-10">
+                <main className="container">
                     <Providers>{children}</Providers>
                 </main>
             </body>

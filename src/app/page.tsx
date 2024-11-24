@@ -3,6 +3,7 @@ import React from "react";
 import {LogIn, GraduationCap} from "lucide-react";
 
 import { Metadata } from 'next';
+import SignInButton from "@/components/signin-button/signin-button";
 
 export const metadata: Metadata = {
     title: 'MDA402 Project Management - Home',
@@ -24,18 +25,16 @@ const Home = () => {
                 <div className="flex flex-row items-center space-x-8">
                     <Link 
                         href="/lectures" 
-                        className="bg-[#f3f2fe] text-[#01aa00] border-[#01aa00] border-2 text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:shadow-sm hover:shadow-[#01aa00] hover:bg-[#01aa00] hover:text-[#f3f2fe]"
+                        className="bg-[#01aa00] text-[#f3f2fe] border-[#01aa00] border-2 text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-[#01aa00]"
                     >
                         <GraduationCap />
                         View course materials
                     </Link>
-                    <Link 
-                        href="/practices" 
-                        className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:shadow-sm hover:shadow-blue-300 hover:bg-[#f3f2fe] hover:text-[#0101bf]"
-                    >
-                        <LogIn />
-                        Sign In
-                    </Link>
+                    <SignInButton 
+                        url={`${process.env.NEXT_PUBLIC_URL}/practices`}
+                        size={25} 
+                        className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-[#0101bf]"
+                    />
                 </div>
             </div>
         </main>

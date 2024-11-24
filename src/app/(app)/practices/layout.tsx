@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 
 import {auth, signOut} from "@/server/auth";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: 'Reservation Manager'
 };
 
-const Layout = async ({
+const PracticesLayout = async ({
                               children
                           }: Readonly<{
     children: React.ReactNode;
@@ -28,7 +28,6 @@ const Layout = async ({
     console.log(session.user);
 
     return (
-        <html lang="en">
         <body
             className={`flex min-h-screen flex-col bg-gray-200 ${poppins.className}`}
         >
@@ -62,8 +61,7 @@ const Layout = async ({
             {children}
         </main>
         </body>
-        </html>
     );
 };
 
-export default Layout;
+export default PracticesLayout;
