@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {CurrentDate} from "@/components/dashboard/current-date";
 import {getTodayReservation} from "@/components/dashboard/action";
-import {TodayInfo} from "@/components/dashboard/today-info";
 import ReservationsTable from "@/components/dashboard/reservations-table";
 import {Reservation} from "@/db/schema/reservations";
 import {CreateReservationForm} from "@/components/create-reservation/create-reservation-form";
@@ -24,7 +23,6 @@ export default async function Home() {
             <div className="flex md:flex-row flex-col w-full justify-between">
                 <div className="flex flex-col space-y-4">
                     <CurrentDate />
-                    <TodayInfo />
                 </div>
                 <div className="flex flex-col space-y-4"> {/* Right column */}
                     <ReservationDialog create={true}>

@@ -13,6 +13,7 @@ import {
 } from "@/db/schema/room-reservations";
 import { rooms, roomsRelations } from "@/db/schema/rooms";
 import { foodOrderDiet, foodOrderDietRelations } from "@/db/schema/diet-orders";
+import { lectures } from "@/db/schema/lectures";
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
@@ -28,6 +29,7 @@ export const db = drizzle(client, {
     reservations,
     guests,
     guestsReservations,
+    lectures,
 
     // relations
     foodOrdersRelations,
