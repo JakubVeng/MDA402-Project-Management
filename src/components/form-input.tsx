@@ -12,13 +12,42 @@ export const FormInput = ({
                               label,
                               textarea,
                               name,
+                              type,
                               className,
                               ...inputProps
                           }: FormInputProps) => {
     const {
         register,
+        setValue,
+        getValues,
         formState: { errors }
     } = useFormContext();
+
+    if (type === 'checkbox') {
+        return (
+            <label htmlFor={name} className="form-control w-full flex items-center gap-2">
+                <input
+                    id={name}
+                    type="checkbox"
+                    className={cn(
+                        'checkbox checkbox-primary',
+                        errors[name] && 'border-red-600',
+                        className
+                    )}
+                    // Use register to bind with react-hook-form
+                    {...register(name, {
+                        setValueAs: (value) => (value ? 1 : 0), // Map true/false to 1/0
+                    })}
+                    onChange={() => {
+                        const currentValue = getValues(name); // Get current value
+                        setValue(name, currentValue === 1 ? 0 : 1); // Toggle between 0 and 1
+                    }}
+                    {...inputProps}
+                />
+                <span className="label-text text-black">{label}</span>
+            </label>
+        );
+    }
 
     return (
         <label htmlFor={name} className="form-control w-full">
@@ -33,7 +62,7 @@ export const FormInput = ({
                         className
                     )}
                     {...register(name, {
-                        valueAsNumber: inputProps.type === 'number'
+                        valueAsNumber: type === 'number'
                     })}
                 />
             ) : (
@@ -46,7 +75,7 @@ export const FormInput = ({
                     )}
                     {...inputProps}
                     {...register(name, {
-                        valueAsNumber: inputProps.type === 'number'
+                        valueAsNumber: type === 'number'
                     })}
                 />
             )}
