@@ -1,49 +1,48 @@
-import Link from "next/link";
-import {CurrentDate} from "@/components/dashboard/current-date";
-import {getTodayReservation} from "@/components/dashboard/action";
-import ReservationsTable from "@/components/dashboard/reservations-table";
-import {Reservation} from "@/db/schema/reservations";
-import {CreateReservationForm} from "@/components/create-reservation/create-reservation-form";
-import {ReservationDialog} from "@/components/reservation-detail/reservation-dialog";
-import React from "react";
-import {Bed, Calendar, List} from "lucide-react";
+import {auth} from "@/server/auth";
 
-import { Metadata } from 'next';
+import { getAdminEmails, getAllLectures } from '@/components/lectures/action';
+import { LectureSnippet } from '@/components/lectures/lecture-snippet2'
+import { RightSidebar } from '@/components/lectures/right-side-bar';
+import { AddLectureDialog } from "@/components/lectures/add-lecture-dialog";
+import { AddLectureForm } from "@/components/lectures/add-lecture-form";
 
-export const metadata: Metadata = {
-    title: 'RM - Home',
-    description: 'Home page'
-};
 
-export default async function Home() {
-    const reservations : Reservation[] = await getTodayReservation();
+export default async function Practices() {
+    const lectures = await getAllLectures()
+    const session = await auth();
+    const admin_emails = await getAdminEmails()
+
+    let editor = false
+
+    if (session?.user?.email) {
+        editor = admin_emails.includes(session.user.email)
+    }
 
     return (
-        <main className="flex flex-col min-h-screen p-10 w-screen">
-            <div className="flex md:flex-row flex-col w-full justify-between">
-                <div className="flex flex-col space-y-4">
-                    <CurrentDate />
+        <main className="flex flex-row w-screen">
+            <div className="flex flex-col py-8 px-12 w-3/4 space-y-4">
+                <div className='flex flex-col space-y-6'>
+                    <h2 className="text-[#0101bf] text-3xl font-bold">General information</h2>
+                    <article>
+                        On this place you can find all relevant information about the course organization, attendance and also assesment.
+                    </article>
                 </div>
-                <div className="flex flex-col space-y-4"> {/* Right column */}
-                    <ReservationDialog create={true}>
-                        <CreateReservationForm initialData={null}/>
-                    </ReservationDialog>
-                    <Link href="/reservation/list" className="bg-blue-300 text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <List />
-                        Show all reservations
-                    </Link>
-                    <Link href="/reservation/calendar" className="bg-blue-300 text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <Calendar />
-                        Show calendar
-                    </Link>
-                    <Link href="/manage" className="bg-white text-black text-center rounded-xl p-4 mb-4 flex flex-row gap-1"> {/* Link box */}
-                        <Bed />
-                        Manage accomodation
-                    </Link>
+                <div className='flex flex-col py-4 space-y-6'>
+                    <h2 className="text-[#0101bf] text-3xl font-bold">Course materials</h2>
+                    {editor ? (
+                        <AddLectureDialog initialData={null}>
+                            <AddLectureForm initialData={null}/>
+                        </AddLectureDialog>
+                    ) : null }
+                    {lectures.map((lecture, index) => (
+                        <LectureSnippet lecture={lecture} editor={editor} key={index}/>
+                    ))}
                 </div>
             </div>
-
-            <ReservationsTable reservations={reservations} />
+            <div className='hidden sticky top-20 h-[calc(100vh-103px)] lg:flex border-l border-[#e3e8ef] lg:w-1/4'>
+                <RightSidebar lectures={lectures} />
+            </div>
         </main>
     );
+
 }

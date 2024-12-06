@@ -48,7 +48,7 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                 {lecture.isAvailable || (!lecture.isAvailable && editor) ? (
                     <Link 
                         href={`/lectures/${dashedName}`} 
-                        className="flex flex-row border-b-2 border-[#f3f2fe] items-center gap-2 text-[#0101bf] text-center hover:border-[#0101bf]"
+                        className="flex flex-row border-b-2 border-[#f3f2fe] items-center gap-2 text-[#0101bf] text-center transition duration-200 ease-in-out hover:border-[#0101bf]"
                     >
                         More details
                         <ArrowRight size={20} />

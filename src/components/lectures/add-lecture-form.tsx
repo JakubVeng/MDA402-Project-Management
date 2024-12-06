@@ -47,7 +47,6 @@ async function isFileinFolder(fileName: string) {
 const useAddLectureMutation = () =>
     useMutation({
         mutationFn: async (data: AddLectureFormSchema) => {
-            // TODO: Space for extra checks (specially invalid date)
             try {
                 console.log(data)
                 const newLecture: Lecture = {id: 0, description: data.description, name: data.name, orderedItem: data.orderedItem, isAvailable: false};
@@ -161,6 +160,5 @@ export const AddLectureForm = ({initialData}: { initialData: Lecture  | null}) =
             </form>
         </FormProvider>
     </div>
-)
-    ;
+    );
 };

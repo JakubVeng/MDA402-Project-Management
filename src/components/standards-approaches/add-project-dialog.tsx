@@ -9,13 +9,13 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '../button';
 import { PropsWithChildren } from 'react';
-import { Lecture } from '@/db/schema/lectures';
+import { Project } from '@/db/schema/projects';
 
-type AddLectureDialogProps = PropsWithChildren<{
-    initialData: Lecture  | null;
+type AddProjectDialogProps = PropsWithChildren<{
+    initialData: Project  | null;
 }>;
 
-export const AddLectureDialog = ({ children, initialData }: AddLectureDialogProps) => {
+export const AddProjectDialog = ({ children, initialData }: AddProjectDialogProps) => {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -26,14 +26,14 @@ export const AddLectureDialog = ({ children, initialData }: AddLectureDialogProp
                     className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-sm text-center rounded-xl py-2 px-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-[#0101bf]"
                     onClick={() => setIsDialogOpen(true)}
                 >
-                    Edit Lecture
+                    Edit Project
                 </Button>
             ) : (
                 <Button
                     className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-sm text-center rounded-xl py-2 px-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-white hover:text-[#0101bf]"
                     onClick={() => setIsDialogOpen(true)}
                 >
-                    Add Lecture
+                    Add Project
                 </Button>
             )}
 

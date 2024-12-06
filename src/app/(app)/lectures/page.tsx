@@ -6,6 +6,7 @@ import { RightSidebar } from '@/components/lectures/right-side-bar';
 import { AddLectureDialog } from "@/components/lectures/add-lecture-dialog";
 import { AddLectureForm } from "@/components/lectures/add-lecture-form";
 
+
 export default async function Lectures() {
     const lectures = await getAllLectures()
     const session = await auth();

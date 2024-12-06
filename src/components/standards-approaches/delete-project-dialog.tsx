@@ -10,7 +10,7 @@ import {
 import { Button } from '../button';
 import { type PropsWithChildren } from 'react';
 
-export const DeleteLectureDialog = ({ children }: PropsWithChildren) => {
+export const DeleteProjectDialog = ({ children }: PropsWithChildren) => {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 

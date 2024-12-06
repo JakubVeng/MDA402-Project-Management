@@ -29,7 +29,7 @@ export const UploadLectureDialog = ({ children }: PropsWithChildren) => {
                 </DialogTrigger>
                 <DialogContent style={{ width: '80vw' }} className="bg-white p-4">
                     <DialogTitle />
-                    <DialogDescription>
+                    <DialogDescription as="div">
                         {children}
                     </DialogDescription>
                 </DialogContent>

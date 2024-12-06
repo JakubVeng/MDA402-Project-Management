@@ -13,9 +13,9 @@ export function Droppable(props: DroppableProps) {
         id: props.id,
     });
 
-    const greenOver = props.id !== 'basic' ? isOver ? 'bg-white rounded-3xl mt-1 border-solid border-4 border-green-700 w-[170px] mob:w-[220px] sm:w-[300px] lg:w-[400px]' : 'bg-white rounded-3xl mt-1 border-dashed border-2 border-gray-300 w-[170px] mob:w-[220px] sm:w-[300px] lg:w-[400px]' : 'bg-white rounded-3xl w-[170px] mob:w-[220px] sm:w-[300px] lg:w-[400px]';
+    const blueOver = props.id !== 'basic' ? (isOver ? 'rounded-3xl mt-1 border-solid border-4 border-[#0101bf] w-[200px] h-[120px]' : 'rounded-3xl mt-1 border-dashed border-2 border-gray-300 w-[200px] h-[120px]') : 'rounded-3xl w-[200px] h-[120px]';
     
-    const styling = props.className ? props.className + greenOver : greenOver
+    const styling = props.className ? props.className + blueOver : blueOver
 
     return (
         <div ref={setNodeRef} className={styling}>
