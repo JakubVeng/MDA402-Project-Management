@@ -9,7 +9,7 @@ import { Lecture } from '@/db/schema/lectures';
 import { SpinnerCircular } from 'spinners-react';
 
 
-type  DeliveredButtonProps = DetailedHTMLProps<
+type  IsAvailableButtonProps = DetailedHTMLProps<
 ButtonHTMLAttributes<HTMLButtonElement>,
 HTMLButtonElement
 > & {
@@ -36,7 +36,7 @@ async function isFileinFolder(fileName: string) {
 
 export const IsAvailableButton = ({
 	lecture: { name, isAvailable, id }
-}: DeliveredButtonProps) => {
+}: IsAvailableButtonProps) => {
 	const [isPending, setIsPending] = useState(false);
 
 	const Icon = isAvailable ? Check : X;

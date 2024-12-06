@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
-import {LogIn, GraduationCap} from "lucide-react";
+import { GraduationCap, LogIn} from "lucide-react";
 
 import { Metadata } from 'next';
-import SignInButton from "@/components/signin-button/signin-button";
+import SignInButton from "@/components/signin/signin-button";
 
 export const metadata: Metadata = {
     title: 'MDA402 Project Management - Home',
@@ -32,9 +32,12 @@ const Home = () => {
                     </Link>
                     <SignInButton 
                         url={`${process.env.NEXT_PUBLIC_URL}/practices`}
-                        size={25} 
                         className="bg-[#0101bf] border-2 border-[#0101bf] text-[#f3f2fe] text-center rounded-xl p-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-[#0101bf]"
-                    />
+                    >
+                        <LogIn size={25}/>
+                        Sign In
+                    </SignInButton>
+                    
                 </div>
             </div>
         </main>

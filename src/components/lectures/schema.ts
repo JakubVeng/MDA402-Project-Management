@@ -4,8 +4,8 @@ export const addLectureFormSchema = z.object({
     name: z.string(),
     orderedItem: z
         .number()
-        .int({ message: "Ordered item must be an integer." })
-        .gt(0, { message: "Ordered item must be greater than 0." }),
+        .int({ message: "Week must be an integer." })
+        .gt(0, { message: "Week must be greater than 0." }),
     description: z.string()
 });
 

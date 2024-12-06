@@ -14,6 +14,10 @@ import {
 import { rooms, roomsRelations } from "@/db/schema/rooms";
 import { foodOrderDiet, foodOrderDietRelations } from "@/db/schema/diet-orders";
 import { lectures } from "@/db/schema/lectures";
+import { userRelations, users } from "./schema/users";
+import { userRoleRelations, userRoles } from "./schema/users-roles";
+import { comparisons } from "./schema/comparisons";
+import { userToRoles, userToRolesRelations } from "./schema/user-to-roles";
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
@@ -30,8 +34,15 @@ export const db = drizzle(client, {
     guests,
     guestsReservations,
     lectures,
+    users,
+    userRoles,
+    comparisons,
+    userToRoles,
 
     // relations
+    userRelations,
+    userRoleRelations,
+    userToRolesRelations,
     foodOrdersRelations,
     foodOrderDietRelations,
     guestsRelations,

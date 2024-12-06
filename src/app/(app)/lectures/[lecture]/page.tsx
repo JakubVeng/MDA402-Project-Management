@@ -48,14 +48,6 @@ export default async function LectureDetailsPage({ params }: LectureParams) {
     const pathToPdf = `/pdfs/${lecture}.pdf`
     const fileName = `${lecture}.pdf`
     const fileExists = await isFileinFolder(fileName)
-    //console.log(pathToPdf)
-    //console.log(fileExists)
-    /*{fileExists ? (
-                <PdfViewer file={pathToPdf} />
-            ) : (
-                <p>No file uploaded yet.</p>
-            )}
-    */
 
     return (
         <div className="flex flex-col justify-center items-center mt-10 w-screen space-y-6">

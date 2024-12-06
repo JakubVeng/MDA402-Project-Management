@@ -2,7 +2,7 @@ import { ReservationIdParams } from "@/app/(app)/reservation/[id]/page";
 import { getOrdersOfReservation } from "@/components/meal-order/action";
 import { getDietOrdersOfReservation } from "@/components/diet-order/action";
 import { getReservation } from "@/components/reservation-detail/action";
-import { Td, Th, Tr } from "@/components/table";
+import { Td, Th, Tr } from "@/components/table-orig";
 import { PageLink } from "@/components/page-link";
 import { getGuestsFromReservation } from "@/components/create-room-reservation/action";
 import { DietOrder } from "@/components/diet-order/schema";
