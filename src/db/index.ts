@@ -18,6 +18,7 @@ import { userRelations, users } from "./schema/users";
 import { userRoleRelations, userRoles } from "./schema/users-roles";
 import { comparisons } from "./schema/comparisons";
 import { userToRoles, userToRolesRelations } from "./schema/user-to-roles";
+import { workPackages, workPackagesRelations } from "./schema/work-packages";
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
@@ -38,11 +39,13 @@ export const db = drizzle(client, {
     userRoles,
     comparisons,
     userToRoles,
+    workPackages,
 
     // relations
     userRelations,
     userRoleRelations,
     userToRolesRelations,
+    workPackagesRelations,
     foodOrdersRelations,
     foodOrderDietRelations,
     guestsRelations,
