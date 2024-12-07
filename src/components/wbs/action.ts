@@ -1,5 +1,10 @@
+'use server'
+
 import { db } from "@/db"
-import { workPackages } from "@/db/schema/work-packages"
+import { WorkPackage, workPackages } from "@/db/schema/work-packages"
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache"
+import { isNull } from "drizzle-orm";
 
 export type WorkPackageMap = {
     [x : string]: string[]
@@ -25,26 +30,54 @@ export const getWPWithSubWPs = async() => {
     return WPMap
 };
 
-type TaskLevelArray = string[][]
+export const deleteWBS = async() => {
+    await db.delete(workPackages)
 
-export const getWPByLevels = async(WPMap: WorkPackageMap) => {
-    const rootTasks = Object.keys(WPMap).filter(task =>
-        !Object.values(WPMap).some(subTasks => subTasks.includes(task))
-    )
+    revalidatePath('/practices/wbs')
+    return
+}
 
-    const levels: TaskLevelArray = []
-    let currentLevel = rootTasks
+export const checkWBS = async() => {
+    const wbs = await db.select().from(workPackages).limit(1)
+    return wbs.length === 0;
+}
 
-    while (currentLevel.length > 0) {
-        levels.push(currentLevel)
-        const nextLevel: string[] = []
+export const addLevel0 = async(level0: WorkPackage) => {
+    await db.insert(workPackages).values({
+        name: level0.name,
+        parentId: level0.parentId
+    })
 
-        currentLevel.forEach(task => {
-            nextLevel.push(...WPMap[task])
-        });
+    revalidatePath('/practices/wbs');
+    return {}
+}
 
-        currentLevel = nextLevel
+export const checkLevel0Node = async () => {
+    const records = await db.select().from(workPackages)
+
+    if (records.length === 1 && records[0].parentId === null) {
+        return records[0].name; 
     }
 
-    return levels;
-};
+    return false;
+}
+
+export const insertDataToDB = async (wps: WorkPackageMap) => {
+    const nodesToProcess = Object.keys(wps);
+
+    for (const node of nodesToProcess) {
+        const nodeId = await db.select({field1: workPackages.id}).from(workPackages).where(eq(workPackages.name, node))
+        const { field1 } = nodeId[0]
+
+        for (const child of wps[node] || []) {
+            await db.insert(workPackages).values({
+                name: child,
+                parentId: field1
+            })
+        }
+    }
+
+    revalidatePath('/practices/wbs');
+    console.log('Data insertion completed successfully.');
+  };
+  

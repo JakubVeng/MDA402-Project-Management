@@ -7,17 +7,23 @@ import {
     DialogContent,
     DialogDescription,
 } from '@/components/ui/dialog';
-import { Button } from '../button';
+import { Button } from './button';
 import { type PropsWithChildren } from 'react';
 
-export const DeleteProjectDialog = ({ children }: PropsWithChildren) => {
+type DeleteDialogProps = PropsWithChildren<{
+    bgCol?: string;
+}>;
+
+export const DeleteDialog = ({ children, bgCol }: DeleteDialogProps) => {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const bgColour = bgCol ? bgCol : 'bg-[#f3f2fe]'
 
     return (
         <div>
             <Button
-                className="bg-red-500 border-2 border-red-500 text-[#f3f2fe] text-sm text-center rounded-xl py-2 px-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-red-500"
+                className={`bg-red-500 border-2 border-red-500 text-[#f3f2fe] text-sm text-center rounded-xl py-2 px-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:${bgColour} hover:text-red-500`}
                 onClick={() => setIsDialogOpen(true)}
             >
                 Delete

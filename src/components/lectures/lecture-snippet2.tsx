@@ -6,11 +6,10 @@ import { ArrowRight } from 'lucide-react';
 import { useMutation } from "@tanstack/react-query";
 import { deleteLecture } from "./action";
 import { toast } from "sonner";
-import { Button } from "../button";
 import { AddLectureForm } from "./add-lecture-form";
 import { AddLectureDialog } from "./add-lecture-dialog";
 import { IsAvailableButton } from "./isAvailable-button";
-import { DeleteLectureDialog } from "./delete-lecture-dialog";
+import { DeleteDialog } from "../delete-dialog";
 import { DeleteLecture } from "./delete-lecture-form";
 
 type LectureSnippetProps = {
@@ -68,9 +67,9 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                         <AddLectureDialog initialData={lecture}>
                             <AddLectureForm initialData={lecture}/>
                         </AddLectureDialog>
-                        <DeleteLectureDialog>
+                        <DeleteDialog>
                             <DeleteLecture lecture={lecture} />
-                        </DeleteLectureDialog>
+                        </DeleteDialog>
                     </div>
                 </div>
             )}
