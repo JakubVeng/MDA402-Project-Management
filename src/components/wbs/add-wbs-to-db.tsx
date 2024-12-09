@@ -1,18 +1,19 @@
 'use client';
 
-
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { insertDataToDB, WorkPackageMap } from './action';
+import { getChildlessWP, insertDataToDB, insertToPert, WorkPackageMap } from './action';
 import { Button } from '../button';
 import { useWPSContext } from './wps-provider';
 
 
-const useDeleteWpMutation = () =>
+const useAddWBSMutation = () =>
     useMutation({
         mutationFn: async (wps: WorkPackageMap) => {
             await insertDataToDB(wps)
+            const ids = await getChildlessWP()
+            await insertToPert(ids)
         },
         onError: (error) => {
             const errorMessage =
@@ -22,13 +23,13 @@ const useDeleteWpMutation = () =>
     });
 
 
-export const AddWBS = ({level0}: {level0: string}) => {
+export const AddWBS = () => {
     const { wps } = useWPSContext()
     
-    const deleteProject = useDeleteWpMutation();
+    const addWBS = useAddWBSMutation();
     
     const onClickSubmit= () => {
-        deleteProject.mutate(
+        addWBS.mutate(
             wps
         )
     }

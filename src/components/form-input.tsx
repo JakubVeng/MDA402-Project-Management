@@ -1,21 +1,21 @@
-import { type HTMLProps } from 'react';
+import { HTMLProps } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { cn } from '@/lib/cn';
 
 type FormInputProps = HTMLProps<HTMLInputElement> & {
-    label: string;
+    label?: string;
     name: string;
     textarea?: boolean;
 };
 
 export const FormInput = ({
-                              label,
-                              textarea,
-                              name,
-                              type,
-                              className,
-                              ...inputProps
-                          }: FormInputProps) => {
+    label,
+    textarea,
+    name,
+    type,
+    className,
+    ...inputProps
+}: FormInputProps) => {
     const {
         register,
         setValue,
@@ -54,7 +54,8 @@ export const FormInput = ({
             <div className="label mb-1">
                 <span className="label-text text-black">{label}</span>
             </div>
-            {textarea ? (<textarea
+            {textarea ? (
+                <textarea
                     id={name}
                     className={cn(
                         'mt-1 p-2 block w-full text-slate-700 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500',

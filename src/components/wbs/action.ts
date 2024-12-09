@@ -2,9 +2,11 @@
 
 import { db } from "@/db"
 import { WorkPackage, workPackages } from "@/db/schema/work-packages"
-import { eq } from "drizzle-orm";
+import { eq, isNotNull, notInArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache"
 import { isNull } from "drizzle-orm";
+import { pertTasks } from "@/db/schema/pert-tasks";
+import { allocations } from "@/db/schema/allocations";
 
 export type WorkPackageMap = {
     [x : string]: string[]
@@ -31,6 +33,8 @@ export const getWPWithSubWPs = async() => {
 };
 
 export const deleteWBS = async() => {
+    await db.delete(allocations)
+    await db.delete(pertTasks)
     await db.delete(workPackages)
 
     revalidatePath('/practices/wbs')
@@ -79,5 +83,29 @@ export const insertDataToDB = async (wps: WorkPackageMap) => {
 
     revalidatePath('/practices/wbs');
     console.log('Data insertion completed successfully.');
-  };
+};
+
+export const getChildlessWP = async() => {
+    const parentIdsquery = await db.select({data: workPackages.parentId}).from(workPackages).where(isNotNull(workPackages.parentId))
+
+    const parentIds = parentIdsquery.map(id => id.data).filter((id): id is number => id !== null);
+
+    const idsQuery = await db.select({data: workPackages.id}).from(workPackages).where(notInArray(workPackages.id, parentIds))
+
+    const ids = idsQuery.map(id => id.data)
+
+    return ids
+}
+
+export const insertToPert = async(ids: number[]) => {
+
+    const pertValues = ids.map(workPackageId => ({ workPackageId }))
+    const insertedPertRecords = await db.insert(pertTasks).values(pertValues).returning({ id: pertTasks.id })
+
+    const allocationValues = insertedPertRecords.flatMap(({ id: pertId }) => [
+        { pertId, name: 'Default', allocation: 1 },
+    ]);
+
+    await db.insert(allocations).values(allocationValues)
+}
   
