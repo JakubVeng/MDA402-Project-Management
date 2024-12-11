@@ -22,6 +22,8 @@ import { workPackages, workPackagesRelations } from "./schema/work-packages";
 import { pertTasks, pertTasksRelations } from "./schema/pert-tasks";
 import { projects } from "./schema/projects";
 import { allocations, allocationsRelations } from "./schema/allocations";
+import { pdm, pdmRelations } from "./schema/pdm";
+import { pdmTypes, pdmTypesRelations } from "./schema/pdm-types";
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
@@ -46,6 +48,8 @@ export const db = drizzle(client, {
     workPackages,
     pertTasks,
     allocations,
+    pdm,
+    pdmTypes,
 
     // relations
     userRelations,
@@ -54,6 +58,8 @@ export const db = drizzle(client, {
     workPackagesRelations,
     pertTasksRelations,
     allocationsRelations,
+    pdmRelations,
+    pdmTypesRelations,
     foodOrdersRelations,
     foodOrderDietRelations,
     guestsRelations,

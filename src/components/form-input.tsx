@@ -25,7 +25,7 @@ export const FormInput = ({
 
     if (type === 'checkbox') {
         return (
-            <label htmlFor={name} className="form-control w-full flex items-center gap-2">
+            <label htmlFor={name} className={cn('form-control w-full flex items-center gap-2', className)}>
                 <input
                     id={name}
                     type="checkbox"
@@ -44,7 +44,7 @@ export const FormInput = ({
                     }}
                     {...inputProps}
                 />
-                <span className="label-text text-black">{label}</span>
+                <span className={cn('label-text text-black', className)}>{label}</span>
             </label>
         );
     }

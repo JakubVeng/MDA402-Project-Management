@@ -2,12 +2,10 @@
 
 import {Reservation} from "@/db/schema/reservations";
 import React, {ReactNode, useState} from "react";
-import {ArrowLeft, ArrowLeftCircle, ArrowRight, ArrowRightCircle, Bed, Clock} from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, Bed, Clock} from "lucide-react";
 import {Room} from "@/db/schema/rooms";
 import {RoomReservation} from "@/db/schema/room-reservations";
 import { Tooltip } from 'react-tooltip'
-import {CreateReservationForm} from "@/components/create-reservation/create-reservation-form";
-import {ReservationDialog} from "@/components/reservation-detail/reservation-dialog";
 import {useRouter} from "next/navigation";
 
 const getDayName = (date: Date): string => {
@@ -76,7 +74,7 @@ const ToolTipReservation = ({ reservation }: { reservation: Reservation }) => {
 
 }
 
-const RoomReservationCell = ({date, position, color, reservation}: {
+const RoomReservationCell = ({date, position, reservation}: {
     date: Date,
     position: CellPosition, color: string, reservation: Reservation }) => {
 

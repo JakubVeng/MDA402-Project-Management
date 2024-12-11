@@ -130,7 +130,7 @@ export const AddGuestsForm = ({initialData}: { initialData: Guest[]}) => {
     });
 
     useEffect(() => {
-        for (let i = 0; i < initialData.length / 2; i++) {
+        for (let i = 0; i < initialData.length; i++) {
             append({ name: '' });
         }
     }, []);

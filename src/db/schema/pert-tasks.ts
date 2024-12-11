@@ -7,7 +7,7 @@ import { allocations } from "./allocations";
 
 export const pertTasks = sqliteTable('PertTasks', {
     id: integer('id').primaryKey({ autoIncrement: true }),
-    workPackageId: integer('workPackageId').references((): any => workPackages.id),
+    workPackageId: integer('workPackageId').notNull().references((): any => workPackages.id),
     o: real('o').default(1).notNull(),
     m: real('m').default(1).notNull(),
     p: real('p').default(1).notNull()

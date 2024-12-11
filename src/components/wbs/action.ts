@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache"
 import { isNull } from "drizzle-orm";
 import { pertTasks } from "@/db/schema/pert-tasks";
 import { allocations } from "@/db/schema/allocations";
+import { pdm } from "@/db/schema/pdm";
 
 export type WorkPackageMap = {
     [x : string]: string[]
@@ -33,6 +34,7 @@ export const getWPWithSubWPs = async() => {
 };
 
 export const deleteWBS = async() => {
+    await db.delete(pdm)
     await db.delete(allocations)
     await db.delete(pertTasks)
     await db.delete(workPackages)
@@ -103,7 +105,7 @@ export const insertToPert = async(ids: number[]) => {
     const insertedPertRecords = await db.insert(pertTasks).values(pertValues).returning({ id: pertTasks.id })
 
     const allocationValues = insertedPertRecords.flatMap(({ id: pertId }) => [
-        { pertId, name: 'Default', allocation: 1 },
+        { pertId, name: 'Team member', allocation: 1 },
     ]);
 
     await db.insert(allocations).values(allocationValues)

@@ -7,6 +7,7 @@ import { auth } from '@/server/auth';
 import { LogIn } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'MDA402 Project Management - practices'
@@ -19,6 +20,10 @@ const PracticesLayout = async ({
 }>) => {
     const session = await auth();
     const emails = await getEmails()
+
+    if (!session?.user) {
+        redirect('/api/auth/signin');
+    }
 
     let firstTimeUser = true
     let email = ''

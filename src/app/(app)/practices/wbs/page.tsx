@@ -79,7 +79,7 @@ export default async function WBSPage() {
                     {level0node ? (
                         <WPSProvider level0={level0node}>
                             <CreateWBS />
-                            <AddWBS  level0={level0node}/>
+                            <AddWBS  />
                         </WPSProvider>
                     ) : (
                         <WBS wps={wps}/>
