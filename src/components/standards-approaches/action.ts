@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { comparisons } from "@/db/schema/comparisons";
 import { Project, projects } from "@/db/schema/projects";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const getAllCriteria = async() => {

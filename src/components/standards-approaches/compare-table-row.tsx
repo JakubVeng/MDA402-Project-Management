@@ -15,7 +15,7 @@ function renderIcon(value: number) {
     return null;
 }
 
-export default async function CompareTableCriteriaRow({ criteria }: CompareTableCriteriaRowProps) {
+export default function CompareTableCriteriaRow({ criteria }: CompareTableCriteriaRowProps) {
     const section = criteria.ipma === 0 && criteria.pmbok === 0 && criteria.prince2 === 0 && criteria.unifiedProcess === 0 && criteria.scrum === 0
 
     return (

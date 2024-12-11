@@ -1,5 +1,5 @@
 import { getAdminEmails } from "@/components/lectures/action";
-import { getProjects } from "@/components/standards-approaches/action";
+import { getAllCriteria, getProjects } from "@/components/standards-approaches/action";
 import { AddProjectDialog } from "@/components/standards-approaches/add-project-dialog";
 import { AddProjectForm } from "@/components/standards-approaches/add-project-form";
 import ComparisonTable from "@/components/standards-approaches/compare-table";
@@ -11,6 +11,7 @@ import { auth } from "@/server/auth";
 export default async function StandardsAndApproachesPage() {
 
     const projects = await getProjects()
+    const criterias = await getAllCriteria()
 
     const session = await auth();
     const admin_emails = await getAdminEmails()
@@ -35,7 +36,7 @@ export default async function StandardsAndApproachesPage() {
                     </article>
                 </div>
             </div>
-            <ComparisonTable />
+            <ComparisonTable criterias={criterias} />
             {editor ? (
                 <div className="flex flex-col justify-center items-center w-full space-y-4">
                     <AddProjectDialog initialData={null}>
