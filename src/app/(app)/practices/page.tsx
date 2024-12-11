@@ -1,14 +1,13 @@
 import {auth} from "@/server/auth";
 
 import { getAdminEmails, getAllLectures } from '@/components/lectures/action';
-import { LectureSnippet } from '@/components/lectures/lecture-snippet2'
-import { RightSidebar } from '@/components/lectures/right-side-bar';
-import { AddLectureDialog } from "@/components/lectures/add-lecture-dialog";
-import { AddLectureForm } from "@/components/lectures/add-lecture-form";
+import { getAllPractices } from "@/components/practices/action";
+import { PracticeSnippet } from "@/components/practices/practice-snippet";
+import { RightSidebarPractice } from "@/components/practices/right-side-bar-practice";
 
 
 export default async function Practices() {
-    const lectures = await getAllLectures()
+    const practices = await getAllPractices()
     const session = await auth();
     const admin_emails = await getAdminEmails()
 
@@ -29,18 +28,13 @@ export default async function Practices() {
                 </div>
                 <div className='flex flex-col py-4 space-y-6'>
                     <h2 className="text-[#0101bf] text-3xl font-bold">Course materials</h2>
-                    {editor ? (
-                        <AddLectureDialog initialData={null}>
-                            <AddLectureForm initialData={null}/>
-                        </AddLectureDialog>
-                    ) : null }
-                    {lectures.map((lecture, index) => (
-                        <LectureSnippet lecture={lecture} editor={editor} key={index}/>
+                    {practices.map((practice, index) => (
+                        <PracticeSnippet practice={practice} editor={editor} key={index}/>
                     ))}
                 </div>
             </div>
             <div className='hidden sticky top-20 h-[calc(100vh-103px)] lg:flex border-l border-[#e3e8ef] lg:w-1/4'>
-                <RightSidebar lectures={lectures} />
+                <RightSidebarPractice practices={practices} />
             </div>
         </main>
     );

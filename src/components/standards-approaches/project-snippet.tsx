@@ -3,7 +3,7 @@
 import { Project } from "@/db/schema/projects";
 import { AddProjectDialog } from "./add-project-dialog";
 import { AddProjectForm } from "./add-project-form";
-import { DeleteProjectDialog } from "./delete-project-dialog";
+import { DeleteDialog } from "../delete-dialog";
 import { DeleteProject } from "./delete-project";
 import { ChangeAnswerButton } from "./change-correct-answer-button";
 import { ChangeAnswerDialog } from "./change-answer-dialog";
@@ -60,9 +60,9 @@ export const ProjectSnippet = ({project, index}: ProjectSnippetProps) => {
                     <AddProjectDialog initialData={project}>
                         <AddProjectForm initialData={project}/>
                     </AddProjectDialog>
-                    <DeleteProjectDialog>
+                    <DeleteDialog>
                         <DeleteProject  projectId={project.id}/>
-                    </DeleteProjectDialog>
+                    </DeleteDialog>
                 </div>
             </div>
         </div>

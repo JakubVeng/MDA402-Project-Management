@@ -1,4 +1,5 @@
 
+import { Comparison } from "@/db/schema/comparisons";
 import { getAllCriteria } from "./action";
 
 import CompareTableCriteriaRow from "./compare-table-row";
@@ -7,8 +8,11 @@ import { Check, X, BadgeHelp} from 'lucide-react';
 
 import Link from 'next/link';
 
-export default async function ComparisonTable() {
-    const criterias = await getAllCriteria()
+type CompareTableProps = {
+    criterias: Comparison[];
+}
+
+export default function ComparisonTable({criterias}: CompareTableProps) {
 
     return (
         <div className="flex flex-col items-center mt-8 w-2/3">

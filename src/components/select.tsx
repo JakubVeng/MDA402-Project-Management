@@ -26,7 +26,7 @@ export const Select = ({
   const { register } = useFormContext();
 
   return (
-    <>
+    <div className="flex flex-col">
       <label className="" htmlFor={name}>
         {displayName}
       </label>
@@ -47,6 +47,6 @@ export const Select = ({
           );
         })}
       </select>
-    </>
+    </div>
   );
 };
