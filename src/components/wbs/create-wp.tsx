@@ -6,18 +6,18 @@ import { DeleteWP } from './delete-wp';
 type WorkPackageProps = {
     level: number;
     name: string;
-    children?: string[];
+    subTasks?: string[];
 }
 
-export const CreateWorkPackage = ({level, name, children}: WorkPackageProps) => {
+export const CreateWorkPackage = ({level, name, subTasks}: WorkPackageProps) => {
 
-    if (level === 0 && children) {
+    if (level === 0 && subTasks) {
         return (
             <div>
                 <ArcherElement
                 id={name}
                 relations={
-                    children.map((child) => ({
+                    subTasks.map((child) => ({
                         targetId: child,     
                         targetAnchor: 'top',     
                         sourceAnchor: 'bottom',
@@ -34,7 +34,7 @@ export const CreateWorkPackage = ({level, name, children}: WorkPackageProps) => 
             </AddWPDialog>
             </div>
         )
-    } else if (level === 0 && !children) {
+    } else if (level === 0 && !subTasks) {
         return (
             <div>
                 <ArcherElement
@@ -49,7 +49,7 @@ export const CreateWorkPackage = ({level, name, children}: WorkPackageProps) => 
             </AddWPDialog>
             </div>
         )
-    } else if (!children || children?.length === 0) {
+    } else if (!subTasks || subTasks?.length === 0) {
         const textSize = 'text-xs'
         return (
             <div className='w-5/12'>
@@ -75,7 +75,7 @@ export const CreateWorkPackage = ({level, name, children}: WorkPackageProps) => 
                 <ArcherElement
                     id={name}
                     relations={
-                        children.map((child) => ({
+                        subTasks.map((child) => ({
                             targetId: child,     
                             targetAnchor: 'left',     
                             sourceAnchor: 'bottom',  

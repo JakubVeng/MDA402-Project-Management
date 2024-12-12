@@ -51,7 +51,7 @@ export function Dropzone(props: DropzoneProps) {
           </div>
         ) : (
           <div className='flex w-full p-10 justify-center items-center border-dashed border-2 rounded-xl mt-2 transition duration-200 ease-in-out hover:border-solid hover:border-[#0101bf]'>
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
           </div>
         )
       }

@@ -3,17 +3,17 @@ import { ArcherElement } from 'react-archer';
 type WorkPackageProps = {
     level: number;
     name: string;
-    children?: string[];
+    subTasks?: string[];
 }
 
-export const WorkPackage = ({level, name, children}: WorkPackageProps) => {
+export const WorkPackage = ({level, name, subTasks}: WorkPackageProps) => {
 
-    if (level === 0 && children) {
+    if (level === 0 && subTasks) {
         return (
             <ArcherElement
                 id={name}
                 relations={
-                    children.map((child) => ({
+                    subTasks.map((child) => ({
                         targetId: child,     
                         targetAnchor: 'top',     
                         sourceAnchor: 'bottom',
@@ -26,7 +26,7 @@ export const WorkPackage = ({level, name, children}: WorkPackageProps) => {
                 </div>
             </ArcherElement>
         )
-    } else if (level === 0 && !children) {
+    } else if (level === 0 && !subTasks) {
         return (
             <ArcherElement
                 id={name}
@@ -36,7 +36,7 @@ export const WorkPackage = ({level, name, children}: WorkPackageProps) => {
                 </div>
             </ArcherElement>
         )
-    } else if (!children || children?.length === 0) {
+    } else if (!subTasks || subTasks?.length === 0) {
         const textSize = level === 3 ? 'text-xs' : level === 2 ? 'text-sm' : 'text-md'
         const shift = level === 2 || level === 3 ? 'ml-6' : ''
         return (
@@ -55,7 +55,7 @@ export const WorkPackage = ({level, name, children}: WorkPackageProps) => {
             <ArcherElement
                 id={name}
                 relations={
-                    children.map((child) => ({
+                    subTasks.map((child) => ({
                         targetId: child,     
                         targetAnchor: 'left',     
                         sourceAnchor: 'bottom',  

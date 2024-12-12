@@ -49,7 +49,7 @@ export const WBS = ({wps}: WBSProps) => {
             <div className="flex justify-center items-center">
                     {levels[0] ? (
                         <div className="flex flex-col items-end">
-                            <WorkPackage level={0} name={levels[0][0]} children={wps[levels[0][0]]} />
+                            <WorkPackage level={0} name={levels[0][0]} subTasks={wps[levels[0][0]]} />
                         </div>
                     ) : null}
                 </div>
@@ -57,7 +57,7 @@ export const WBS = ({wps}: WBSProps) => {
                     <div className="flex flex-row w-full ml-24">
                         {levels[1].map((wp, index) => (
                             <div key={index} className="flex" style={{ width: `${dynamicWidth}%` }}>
-                                <WorkPackage level={1} name={wp} children={wps[wp]} />
+                                <WorkPackage level={1} name={wp} subTasks={wps[wp]} />
                             </div>
                         ))}
                     </div>
@@ -68,10 +68,10 @@ export const WBS = ({wps}: WBSProps) => {
                         <div key={index} className='flex flex-col items-center space-y-12' style={{ width: `${dynamicWidth}%` }}>
                             {wps[wp].map((wp1, index) => (
                                 <div key={index} className="flex flex-col justify-center items-center space-y-8 w-full ">
-                                    <WorkPackage level={2} name={wp1} children={wps[wp1]} />
+                                    <WorkPackage level={2} name={wp1} subTasks={wps[wp1]} />
                                     {wps[wp1].map((wp2, index) => (
                                         <div key={index} className="flex flex-col justify-end items-end space-y-4 w-full">
-                                            <WorkPackage level={3} name={wp2} children={wps[wp2]} />
+                                            <WorkPackage level={3} name={wp2} subTasks={wps[wp2]} />
                                         </div>
                                     ))}
                                 </div>

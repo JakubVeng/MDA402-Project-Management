@@ -44,7 +44,7 @@ export default async function WBSPage() {
                     <article className="flex flex-col space-y-2 text-justify">
                         <p className="flex flex-col">
                             <span>Q: What is your company and what is the main service that you are looking for?</span>
-                            <span>A: The company is called MuscleFactory and it’s basically a fitness center and the main service we're looking for is a booking system.</span>
+                            <span>A: The company is called MuscleFactory and it is basically a fitness center and the main service we're looking for is a booking system.</span>
                         </p>
                         <p className="flex flex-col">
                             <span>Q: So what kind of features are you looking for in your booking system?</span>
