@@ -1,6 +1,6 @@
 'use client';
 
-import React, {ReactNode, useState} from "react";
+import React, {ReactNode, useMemo, useState} from "react";
 import { ArrowLeftCircle, ArrowRightCircle, Bed, Clock} from "lucide-react";
 import { Tooltip } from 'react-tooltip'
 import {useRouter} from "next/navigation";
@@ -188,9 +188,7 @@ const TodayButton = ({setWeekOffset, weekOffset}: {
     );
 }
 
-const GanttChart = ({ ganttTasks }: { ganttTasks: GanttTask[] }) => {
-    const [weekOffset, setWeekOffset] = useState(0);
-
+const calculateWeekDates = (weekOffset: number): Date[] => {
     const today = new Date();
     const startOfWeek = new Date(
         today.getFullYear(),
@@ -210,6 +208,12 @@ const GanttChart = ({ ganttTasks }: { ganttTasks: GanttTask[] }) => {
         }
         currentDay.setDate(currentDay.getDate() + 1);
     }
+    return weekDates;
+};
+
+const GanttChart = ({ ganttTasks }: { ganttTasks: GanttTask[] }) => {
+    const [weekOffset, setWeekOffset] = useState(0);
+    const weekDates = useMemo(() => calculateWeekDates(weekOffset), [weekOffset]);
 
     return (
         <div className={"flex flex-col items-center"}>
