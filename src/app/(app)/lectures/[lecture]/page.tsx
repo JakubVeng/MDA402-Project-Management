@@ -7,9 +7,7 @@ import { getAdminEmails } from "@/components/lectures/action";
 import { UploadLectureDialog } from "@/components/lectures/upload-lecture-dialog";
 import { Dropzone } from "@/components/ui/dropzone";
 
-export type LectureParams = {
-    params: { lecture: string };
-};
+export type LectureParams = Promise<{ lecture: string }>
 
 export const metadata: Metadata = {
     title: 'MDA402 - Lecture detail',
@@ -34,16 +32,17 @@ async function isFileinFolder(fileName: string) {
       }
 }
 
-export default async function LectureDetailsPage({ params }: LectureParams) {
+export default async function LectureDetailsPage(props: { params: LectureParams }) {
     const session = await auth();
     const admin_emails = await getAdminEmails()
-    const { lecture } = await params
 
     let editor = false
 
     if (session?.user?.email) {
         editor = admin_emails.includes(session.user.email)
     }
+
+    const { lecture } = await props.params
 
     const pathToPdf = `/pdfs/${lecture}.pdf`
     const fileName = `${lecture}.pdf`

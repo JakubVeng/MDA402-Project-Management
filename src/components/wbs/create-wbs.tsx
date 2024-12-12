@@ -21,9 +21,9 @@ export const CreateWBS = () => {
                     {levels[0] ? (
                         <div className="flex flex-col items-start">
                             {wps[levels[0][0]].length < 6 ? (
-                                <CreateWorkPackage level={0} name={levels[0][0]} children={wps[levels[0][0]]} />
+                                <CreateWorkPackage level={0} name={levels[0][0]} subTasks={wps[levels[0][0]]} />
                             ) : (
-                                <WorkPackage level={0} name={levels[0][0]} children={wps[levels[0][0]]} />
+                                <WorkPackage level={0} name={levels[0][0]} subTasks={wps[levels[0][0]]} />
                             )}
                         </div>
                     ) : null}
@@ -32,7 +32,7 @@ export const CreateWBS = () => {
                     <div className="flex flex-row w-full ml-24">
                         {levels[1].map((wp, index) => (
                             <div key={index} className="flex flex-col" style={{ width: `${dynamicWidth}%` }}>
-                                <CreateWorkPackage level={1} name={wp} children={wps[wp]} />
+                                <CreateWorkPackage level={1} name={wp} subTasks={wps[wp]} />
                             </div>
                         ))}
                     </div>
@@ -43,11 +43,11 @@ export const CreateWBS = () => {
                         <div key={index} className='flex flex-col items-center space-y-12' style={{ width: `${dynamicWidth}%` }}>
                             {(wps[wp] || []).map((wp1, index) => (
                                 <div key={index} className="flex flex-col justify-center items-center w-full ">
-                                    <CreateWorkPackage level={2} name={wp1} children={wps[wp1]} />
+                                    <CreateWorkPackage level={2} name={wp1} subTasks={wps[wp1]} />
                                     <div className="flex flex-col justify-end items-end w-full space-y-4">
                                         {(wps[wp1] || []).map((wp2, index) => (
                                             <div key={index} className="flex flex-col justify-end items-end w-full">
-                                                <WorkPackage level={3} name={wp2} children={wps[wp2]} />
+                                                <WorkPackage level={3} name={wp2} subTasks={wps[wp2]} />
                                             </div>
                                         ))}
                                     </div>
