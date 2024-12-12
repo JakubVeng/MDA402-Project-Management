@@ -37,7 +37,7 @@ async function isFileinFolder(fileName: string) {
 export default async function LectureDetailsPage({ params }: LectureParams) {
     const session = await auth();
     const admin_emails = await getAdminEmails()
-    const { lecture } = await params
+    const { lecture } = params
 
     let editor = false
 
