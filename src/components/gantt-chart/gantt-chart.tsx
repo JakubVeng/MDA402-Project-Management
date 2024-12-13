@@ -39,10 +39,10 @@ const DateCell = ({ date }: { date: Date }) => {
         <th key={`thead_${dayNumber}`} colSpan={2} className="border border-slate-400">
             <div className={"flex flex-col"}>
                 <span className={"text-xs font-light text-slate-500"}>{getDayName(date)}</span>
-                {areDatesEqual(today, date) ? <strong className="text-red-600 text-4xl">{dayNumber}</strong> :
-                    <strong className={"text-4xl"}>{dayNumber}</strong>}
+                {areDatesEqual(today, date) ? <strong className="text-red-600 text-2xl">{dayNumber}</strong> :
+                    <strong className={"text-2xl"}>{dayNumber}</strong>}
                 <span
-                    className={"text-xs font-light text-slate-500"}>{date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
+                    className={"text-xs font-light text-slate-500"}>{date.getDate()}/{date.getMonth()+1}</span>
             </div>
         </th>
     );
@@ -158,7 +158,7 @@ const GanttTaskRow = ({ weekDates, ganttTask }: { weekDates: Date[], ganttTask: 
     return (
         <tr>
             <td key={"room_id_" + ganttTask.id} colSpan={1}>
-                    <p className="pl-2 font-semibold text-xl text-center">{ganttTask.name}</p>
+                    <p className="pl-2 font-semibold text-sm w-[30vh] text-center">{ganttTask.name}</p>
             </td>
             {cells}
         </tr>
@@ -202,7 +202,7 @@ const calculateWeekDates = (weekOffset: number): Date[] => {
 
     const weekDates: Date[] = [];
     let currentDay = new Date(startMonday);
-    while (weekDates.length < 10) {
+    while (weekDates.length < 20) {
         if (currentDay.getDay() !== 0 && currentDay.getDay() !== 6) {
             weekDates.push(new Date(currentDay));
         }
