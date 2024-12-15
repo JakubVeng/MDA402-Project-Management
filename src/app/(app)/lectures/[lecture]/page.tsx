@@ -32,6 +32,14 @@ async function isFileinFolder(fileName: string) {
       }
 }
 
+/*                
+{editor ? (
+    <UploadLectureDialog>
+        Dropzone name={lecture} />
+    </UploadLectureDialog>
+) : null}
+*/
+
 export default async function LectureDetailsPage(props: { params: LectureParams }) {
     const session = await auth();
     const admin_emails = await getAdminEmails()
@@ -58,11 +66,6 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
                     <ArrowLeft size={20} />
                     Back
                 </Link>
-                {editor ? (
-                    <UploadLectureDialog>
-                        <Dropzone name={lecture} />
-                    </UploadLectureDialog>
-                ) : null}
             </div>
             {fileExists ? (
                 <PdfViewer file={pathToPdf} />

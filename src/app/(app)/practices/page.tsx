@@ -27,7 +27,7 @@ export default async function Practices() {
                     </article>
                 </div>
                 <div className='flex flex-col py-4 space-y-6'>
-                    <h2 className="text-[#0101bf] text-3xl font-bold">Course materials</h2>
+                    <h2 className="text-[#0101bf] text-3xl font-bold">Course practices</h2>
                     {practices.map((practice, index) => (
                         <PracticeSnippet practice={practice} editor={editor} key={index}/>
                     ))}

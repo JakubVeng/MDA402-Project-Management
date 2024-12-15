@@ -28,6 +28,16 @@ const useDeleteLectureMutation = () =>
             }
         }
     })
+/*
+<div className="flex flex-row space-x-4">
+    <AddLectureDialog initialData={lecture}>
+        <AddLectureForm initialData={lecture}/>
+    </AddLectureDialog>
+    <DeleteDialog>
+        <DeleteLecture lecture={lecture} />
+    </DeleteDialog>
+</div>
+*/
 
 export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
     const dashedName = lecture.name.toLowerCase().replace(/\s+/g, '-');
@@ -62,14 +72,6 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                     <div className="flex flex-row space-x-4 items-center">
                         <span>Accessible by students:</span>
                         <IsAvailableButton lecture={lecture} />
-                    </div>
-                    <div className="flex flex-row space-x-4">
-                        <AddLectureDialog initialData={lecture}>
-                            <AddLectureForm initialData={lecture}/>
-                        </AddLectureDialog>
-                        <DeleteDialog>
-                            <DeleteLecture lecture={lecture} />
-                        </DeleteDialog>
                     </div>
                 </div>
             )}
