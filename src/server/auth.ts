@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Discord from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github'
+import GoogleProvider from "next-auth/providers/google";
 
 export const { handlers, auth, signOut } = NextAuth({ 
     providers: [
@@ -12,6 +13,10 @@ export const { handlers, auth, signOut } = NextAuth({
             clientId: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        })
     ],
     /*callbacks: {
         async signIn({ user, account, profile, email, credentials }) {

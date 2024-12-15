@@ -49,8 +49,8 @@ export default function PertTable({className, readOnly}: PertTableProps) {
                         <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">te (MD)</th>
                         <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Assigned</th>
                         <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Time allocation</th>
-                        <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Effort per assignmemt</th>
-                        <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Effort in calendar days</th>
+                        <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Duration per assignmemt</th>
+                        <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider bg-[#0101bf]">Duration in calendar days</th>
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
