@@ -6,10 +6,11 @@ import { toast } from 'sonner';
 
 type DropzoneProps = {
     name: string;
+    lectureId: number;
 }
 
 export function Dropzone(props: DropzoneProps) {
-    const { name } = props; // Destructure the name from props
+    const { name, lectureId } = props; // Destructure the name from props
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
       if (!acceptedFiles[0].name.endsWith('.pdf')) {
@@ -20,8 +21,7 @@ export function Dropzone(props: DropzoneProps) {
         const formData = new FormData();
         formData.append('file', acceptedFiles[0], `${name}.pdf`);
     
-        // Make sure to use the correct path (e.g., '/api/upload' or the full path based on your app structure)
-        fetch('/api/upload', {
+        fetch(`${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?lectureId=${lectureId}`, {
           method: 'POST',
           body: formData,
         })

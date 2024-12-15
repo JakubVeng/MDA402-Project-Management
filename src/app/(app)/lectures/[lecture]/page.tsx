@@ -3,11 +3,9 @@ import PdfViewer from "@/components/pdf-viewer";
 import Link from "next/link";
 import { ArrowLeft } from 'lucide-react';
 import { auth } from "@/server/auth";
-import { getAdminEmails } from "@/components/lectures/action";
+import { getAdminEmails, getLecture } from "@/components/lectures/action";
 import { UploadLectureDialog } from "@/components/lectures/upload-lecture-dialog";
 import { Dropzone } from "@/components/ui/dropzone";
-
-export type LectureParams = Promise<{ lecture: string }>
 
 export const metadata: Metadata = {
     title: 'MDA402 - Lecture detail',
@@ -32,6 +30,24 @@ async function isFileinFolder(fileName: string) {
       }
 }
 
+async function getFilePath(lectureId: number) {
+    const url = `${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?lectureId=${lectureId}`
+    try {
+        const response = await fetch(url, {method: 'GET'});
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch file existence data.');
+        }
+        
+        const data = await response.json();
+
+        return data;
+    
+      } catch (error) {
+        console.log('Error checking file:', error);
+      }
+}
+
 /*                
 {editor ? (
     <UploadLectureDialog>
@@ -40,9 +56,20 @@ async function isFileinFolder(fileName: string) {
 ) : null}
 */
 
+export type LectureParams = Promise<{ lecture: string }>
+
 export default async function LectureDetailsPage(props: { params: LectureParams }) {
     const session = await auth();
     const admin_emails = await getAdminEmails()
+
+    const { lecture } = await props.params
+    console.log(lecture)
+
+    const lectureFromDB = await getLecture(parseInt(lecture))
+    const dashedName = lectureFromDB[0].name.toLowerCase().replace(/\s+/g, '-');
+    const lectureUrl = lectureFromDB[0].url + '/' + dashedName + '.pdf'
+
+    console.log(lectureFromDB[0].url)
 
     let editor = false
 
@@ -50,11 +77,9 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
         editor = admin_emails.includes(session.user.email)
     }
 
-    const { lecture } = await props.params
-
-    const pathToPdf = `/pdfs/${lecture}.pdf`
-    const fileName = `${lecture}.pdf`
-    const fileExists = await isFileinFolder(fileName)
+    const pathToPdf = await getFilePath(parseInt(lecture))
+    //const fileName = `${lecture}.pdf`
+    //const fileExists = await isFileinFolder(fileName)
 
     return (
         <div className="flex flex-col justify-center items-center mt-10 w-screen space-y-6">
@@ -66,9 +91,14 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
                     <ArrowLeft size={20} />
                     Back
                 </Link>
+                {editor ? (
+                    <UploadLectureDialog>
+                        <Dropzone name={dashedName} lectureId={parseInt(lecture)} />
+                    </UploadLectureDialog>
+                ) : null}
             </div>
-            {fileExists ? (
-                <PdfViewer file={pathToPdf} />
+            {pathToPdf && typeof pathToPdf !== "string" ? (
+                <PdfViewer file={lectureFromDB[0].url ? lectureFromDB[0].url : ''} />
             ) : (
                 <p>No file uploaded yet.</p>
             )}

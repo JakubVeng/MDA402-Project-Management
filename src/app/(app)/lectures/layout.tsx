@@ -36,7 +36,7 @@ const LecturesLayout = async ({
         >
             <header className="sticky z-50 top-0 left-0 bg-[#f3f2fe] py-3 px-6 shadow-md">
                 <nav >
-                    <div className="container flex items-center justify-between">
+                    <div className="flex-row flex items-center justify-between">
                         <Link 
                             href="/" 
                             className="text-[#f3f2fe] text-center px-6 flex flex-row gap-2"
@@ -47,7 +47,7 @@ const LecturesLayout = async ({
                             </h1>
                         </Link>
                         {signedIn ? (
-                            <div className='flex flex-row items-center space-x-4'>
+                            <div className='flex flex-row items-center space-x-10 px-14'>
                                 <Link 
                                     href="/practices" 
                                     className="w-28 justify-center bg-[#01aa00] text-[#f3f2fe] border-[#01aa00] border-2 text-sm text-center rounded-xl py-2 px-4 flex flex-row gap-2 transition duration-200 ease-in-out hover:bg-[#f3f2fe] hover:text-[#01aa00]"

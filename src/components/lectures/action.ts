@@ -13,6 +13,10 @@ export const getAllLectures = async() => {
     return await db.select().from(lectures).orderBy(asc(lectures.orderedItem))
 }
 
+export const getLecture = async(lectureId: number) => {
+    return await db.select().from(lectures).where(eq(lectures.id, lectureId))
+}
+
 export const getAdminEmails = async() => {
     const usersData = await db
         .select()
@@ -58,5 +62,14 @@ export const editIsAvailable = async({ lectureId, isAvailable } : {lectureId: nu
         .where(eq(lectures.id, lectureId))
 
     revalidatePath('/lectures');
+    return {};
+}
+
+export const addCloudUrl = async({ lectureId, url } : {lectureId: number, url: string}) => {
+    await db.update(lectures)
+        .set({url: url})
+        .where(eq(lectures.id, lectureId))
+    
+        revalidatePath('/lectures');
     return {};
 }
