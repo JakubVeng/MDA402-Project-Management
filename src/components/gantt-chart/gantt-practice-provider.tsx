@@ -24,8 +24,8 @@ export const GanttTaskProvider: React.FC<{ children: ReactNode; wps: WP[] }> = (
     const tasks = wps.map((item, index) => (
         {
             ...item,
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: new Date(2100, 0, 1),
+            endDate: new Date(2100, 0, 1),
             ordered: index+1
         }
     ))
