@@ -8,12 +8,13 @@ import { AddLectureForm } from "@/components/lectures/add-lecture-form";
 
 
 export default async function Lectures() {
+    // fetching the data from database and from the server regarding authentication
     const lectures = await getAllLectures()
     const session = await auth();
     const admin_emails = await getAdminEmails()
 
+    // condition for determining an admin user
     let editor = false
-
     if (session?.user?.email) {
         editor = admin_emails.includes(session.user.email)
     }

@@ -12,7 +12,7 @@ import { auth } from "@/server/auth";
 
 
 export default async function WBSPage() {
-
+    // fetching the data from database and from the server regarding authentication
     const wps = await getWPWithSubWPs()
 
     const level0node = await checkLevel0Node()
