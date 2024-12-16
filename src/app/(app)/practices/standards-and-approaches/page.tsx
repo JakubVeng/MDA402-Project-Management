@@ -9,7 +9,7 @@ import { auth } from "@/server/auth";
 
 
 export default async function StandardsAndApproachesPage() {
-
+    // fetching the data from database and from the server regarding authentication
     const projects = await getProjects()
     const criterias = await getAllCriteria()
 

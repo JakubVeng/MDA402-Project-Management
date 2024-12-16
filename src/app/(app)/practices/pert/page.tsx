@@ -9,7 +9,7 @@ import { auth } from "@/server/auth";
 
 
 export default async function PERTPage() {
-
+    // fetching the data from database and from the server regarding authentication
     const pertTasks = await getPertTaskData()
     const pertPractices = await getPertPracticeData()
     console.log(pertPractices)

@@ -97,7 +97,7 @@ function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[
 }
 
 export default async function GanttChartPage() {
-
+    // fetching the data from database and from the server regarding authentication
     const pdmTasks = await getPDMTask()
     const pdm = await getPDM()
     const pdmTypes = await getPDMTypes()

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     description: 'Lecture detail page'
 };
 
+//function to check if the file is present for making the lecture availabla for students
 async function isFileinFolder(fileName: string) {
     const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName;
     try {

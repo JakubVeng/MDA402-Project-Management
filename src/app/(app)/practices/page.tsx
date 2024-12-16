@@ -7,6 +7,7 @@ import { RightSidebarPractice } from "@/components/practices/right-side-bar-prac
 
 
 export default async function Practices() {
+    // fetching the data from database and from the server regarding authentication
     const practices = await getAllPractices()
     const session = await auth();
     const admin_emails = await getAdminEmails()
