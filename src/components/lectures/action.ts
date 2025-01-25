@@ -13,6 +13,10 @@ export const getAllLectures = async() => {
     return await db.select().from(lectures).orderBy(asc(lectures.orderedItem))
 }
 
+export const getLecture = async(lectureId: number) => {
+    return await db.select().from(lectures).where(eq(lectures.id, lectureId))
+}
+
 export const getAdminEmails = async() => {
     const usersData = await db
         .select()
@@ -52,11 +56,43 @@ export const addLecture = async(lecture: Lecture) => {
   return {};
 }
 
+export const editLecture = async(lecture: Lecture) => {
+    await db.update(lectures)
+        .set({orderedItem: lecture.orderedItem,
+            name: lecture.name,
+            description: lecture.description,
+            isAvailable: lecture.isAvailable,
+            url: lecture.url
+        })
+        .where(eq(lectures.id, lecture.id))
+    
+    revalidatePath('/lectures');
+    return {};
+}
+
 export const editIsAvailable = async({ lectureId, isAvailable } : {lectureId: number, isAvailable: boolean}) => {
     await db.update(lectures)
         .set({ isAvailable: !isAvailable })
         .where(eq(lectures.id, lectureId))
 
     revalidatePath('/lectures');
+    return {};
+}
+
+export const addCloudUrl = async({ lectureId, url } : {lectureId: number, url: string}) => {
+    await db.update(lectures)
+        .set({url: url})
+        .where(eq(lectures.id, lectureId))
+    
+        revalidatePath(`/lectures/${lectureId}`);
+    return {};
+}
+
+export const deleteCloudUrl = async(lectureId: number) => {
+    await db.update(lectures)
+        .set({url: null})
+        .where(eq(lectures.id, lectureId))
+    
+        revalidatePath(`/lectures/${lectureId}`);
     return {};
 }

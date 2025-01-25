@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { addLecture, deleteLecture } from '@/components/lectures/action';
+import { addLecture, deleteLecture, editLecture } from '@/components/lectures/action';
 import { addLectureFormSchema, AddLectureFormSchema } from '@/components/lectures/schema';
 import {FormInput} from "@/components/form-input";
 import { Lecture } from '@/db/schema/lectures';
@@ -49,7 +49,7 @@ const useAddLectureMutation = () =>
         mutationFn: async (data: AddLectureFormSchema) => {
             try {
                 console.log(data)
-                const newLecture: Lecture = {id: 0, description: data.description, name: data.name, orderedItem: data.orderedItem, isAvailable: false};
+                const newLecture: Lecture = {id: 0, description: data.description, name: data.name, orderedItem: data.orderedItem, isAvailable: false, url: null};
                 console.log(newLecture);
                 await addLecture(newLecture);
                 toast.success(`Lecture ${newLecture.name} was successfully created!`);
@@ -63,27 +63,15 @@ const useAddLectureMutation = () =>
 
 const useEditLectureMutation = () =>
     useMutation({
-        mutationFn: async (data: AddLectureFormSchema & { orderedId: number } & {id: number} & {oldName: string}) => {
+        mutationFn: async (data: AddLectureFormSchema & {id: number} & {url: string | null} & {IsAvailable: true | false}) => {
             try {
                 console.log(data)
 
-                const newLecture: Lecture = {description: data.description, name: data.name, id: 0, orderedItem: data.orderedItem, isAvailable: false};
-                console.log(newLecture);
+                const editedLecture: Lecture = {id: data.id, description: data.description, name: data.name, orderedItem: data.orderedItem, isAvailable: data.IsAvailable, url: data.url};
+                console.log(editedLecture);
 
-                const oldFileName = (data.oldName.toLowerCase().replace(/\s+/g, '-')) + '.pdf';
-                const newFileName = (newLecture.name.toLowerCase().replace(/\s+/g, '-')) + '.pdf';
-
-                const fileExists = await isFileinFolder(oldFileName)
-
-                console.log(oldFileName, newFileName, fileExists)
-
-                if (fileExists) {
-                    await renameFileInFolder(oldFileName, newFileName)
-                }
-
-                await deleteLecture(data.id)
-                await addLecture(newLecture);
-                toast.success(`Lecture ${newLecture.name} was successfully updated!`);
+                await editLecture(editedLecture)
+                toast.success(`Lecture ${editedLecture.name} was successfully updated!`);
             } catch {
                 toast.error('Something went wrong!');
             }
@@ -109,7 +97,7 @@ export const AddLectureForm = ({initialData}: { initialData: Lecture  | null}) =
     const onSubmit = (values: AddLectureFormSchema) => {
         if (initialData) {
             editLecture.mutate(
-                { ...values, orderedId: initialData.orderedItem, id: initialData.id, oldName: initialData.name},
+                { ...values, id: initialData.id, url: initialData.url, IsAvailable: initialData.isAvailable},
                 {
                     onSuccess: () => {}
                 }

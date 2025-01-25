@@ -56,7 +56,7 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                 <h3 className="text-xl text-[#0101bf] font-bold">Week {lecture.orderedItem} - {lecture.name}</h3>
                 {lecture.isAvailable || (!lecture.isAvailable && editor) ? (
                     <Link 
-                        href={`/lectures/${dashedName}`} 
+                        href={`/lectures/${lecture.id}`} 
                         className="flex flex-row border-b-2 border-[#f3f2fe] items-center gap-2 text-[#0101bf] text-center transition duration-200 ease-in-out hover:border-[#0101bf]"
                     >
                         More details
@@ -72,6 +72,14 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                     <div className="flex flex-row space-x-4 items-center">
                         <span>Accessible by students:</span>
                         <IsAvailableButton lecture={lecture} />
+                    </div>
+                    <div className="flex flex-row space-x-4">
+                         <AddLectureDialog initialData={lecture}>
+                            <AddLectureForm initialData={lecture}/>
+                        </AddLectureDialog>
+                        <DeleteDialog>
+                            <DeleteLecture lecture={lecture} />
+                        </DeleteDialog>
                     </div>
                 </div>
             )}

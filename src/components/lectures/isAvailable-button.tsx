@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 import { Lecture } from '@/db/schema/lectures';
 import { SpinnerCircular } from 'spinners-react';
 
-
 type  IsAvailableButtonProps = DetailedHTMLProps<
 ButtonHTMLAttributes<HTMLButtonElement>,
 HTMLButtonElement
@@ -16,32 +15,12 @@ HTMLButtonElement
     lecture: Lecture;
 };
 
-async function isFileinFolder(fileName: string) {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName;
-    try {
-        const response = await fetch(url, {method: 'GET'});
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch file existence data.');
-        }
-        
-        const data = await response.json();
-
-        return data.exists;
-    
-      } catch (error) {
-        console.log('Error checking file:', error);
-      }
-}
-
 export const IsAvailableButton = ({
-	lecture: { name, isAvailable, id }
+	lecture: { isAvailable, id, url }
 }: IsAvailableButtonProps) => {
 	const [isPending, setIsPending] = useState(false);
 
 	const Icon = isAvailable ? Check : X;
-
-    const dashedName = (name.toLowerCase().replace(/\s+/g, '-')) + '.pdf';
 
 	return (
 		<button
@@ -52,8 +31,7 @@ export const IsAvailableButton = ({
             disabled={isPending}
 			onClick={async () => {
 				setIsPending(true)
-                const fileExists = await isFileinFolder(dashedName)
-                if (fileExists) {
+                if (url) {
                     await editIsAvailable({lectureId: id, isAvailable: isAvailable})
 				    setIsPending(false)
 				    if (isAvailable) {

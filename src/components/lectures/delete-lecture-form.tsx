@@ -4,48 +4,15 @@ import { toast } from "sonner"
 import { Button } from "../button"
 import { Lecture } from "@/db/schema/lectures"
 
-async function deleteFilefromFolder(fileName: string) {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName;
-    try {
-        const response = await fetch(url, {method: 'DELETE'});
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error);
-        }
-        
-        } catch (error) {
-            console.log('Error checking file:', error);
-        }
-}
-
-async function isFileinFolder(fileName: string) {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName;
-    try {
-        const response = await fetch(url, {method: 'GET'});
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch file existence data.');
-        }
-        
-        const data = await response.json();
-
-        return data.exists;
-    
-      } catch (error) {
-        console.log('Error checking file:', error);
-      }
-}
 
 const useDeleteLectureMutation = () =>
     useMutation({
         mutationFn: async (lecture: Lecture) => {
             try {
-                const fileName = (lecture.name.toLowerCase().replace(/\s+/g, '-')) + '.pdf';
-                const fileExists = await isFileinFolder(fileName)
-                console.log(fileExists)
-                if (fileExists) {
-                    await deleteFilefromFolder(fileName)
+                if (lecture.url) {
+                    await fetch(`${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?cid=${lecture.url}`, {
+                        method: 'DELETE',
+                      })
                     await deleteLecture(lecture.id)
                     toast.success('Lecture deleted!')
                 } else {
@@ -58,8 +25,6 @@ const useDeleteLectureMutation = () =>
             }
         }
     })
-
-
 
 export const DeleteLecture = ({ lecture }: {lecture: Lecture}) => {
     const deleteLecture = useDeleteLectureMutation();

@@ -7,7 +7,8 @@ export const lectures = sqliteTable('Lectures', {
     orderedItem: integer('orderedItem').unique().notNull(),
     name: text('name').notNull(),
     description: text('description'),
-    isAvailable: integer('isAvailable', { mode: 'boolean'}).notNull().default(false)
+    isAvailable: integer('isAvailable', { mode: 'boolean'}).notNull().default(false),
+    url: text('url')
 });
 
 export const lectureSchema = createSelectSchema(lectures);
