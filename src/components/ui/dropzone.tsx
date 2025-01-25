@@ -3,41 +3,72 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation'
+import { deleteCloudUrl } from '../lectures/action';
 
 type DropzoneProps = {
     name: string;
     lectureId: number;
+    setIsDialogOpen: (isOpen: true | false) => void;
+    cid: string | null;
 }
 
 export function Dropzone(props: DropzoneProps) {
-    const { name, lectureId } = props; // Destructure the name from props
+    const { name, lectureId, setIsDialogOpen, cid } = props; // Destructure the name from props
+    console.log(name, lectureId)
+    const router = useRouter()
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
+    const onDrop = useCallback(async (acceptedFiles: File[]) => {
       if (!acceptedFiles[0].name.endsWith('.pdf')) {
         toast.error('Only PDFs allowed!'); // Display the error message
         return; // Exit the function to prevent further execution
       }
-
+      if (cid) {
+        try {
+          // Unpin the file from IPFS
+          await fetch(`${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?cid=${cid}`, {
+            method: 'DELETE',
+          })
+          await deleteCloudUrl(lectureId)
+        }
+        catch (error) {
+          console.log(error)
+        }
+      } 
+      try {
         const formData = new FormData();
         formData.append('file', acceptedFiles[0], `${name}.pdf`);
     
-        fetch(`${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?lectureId=${lectureId}`, {
+        // Pin the file to IPFS
+        const uploadFile = await fetch(`${process.env.NEXT_PUBLIC_URL!}/api/pinata/files`, {
           method: 'POST',
           body: formData,
         })
-          .then(response => response.json())
-          .then(data => {
-            if (data.error) {
-              alert(data.error);
-            } else {
-              alert('File uploaded successfully!');
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            alert('Error uploading file.');
-          });
-      }, []);
+        const data = await uploadFile.json()
+        if (!data.IpfsHash) {
+          throw new Error("IPFS Hash is missing in the Pinata response.");
+        }
+
+        await fetch(`${process.env.NEXT_PUBLIC_URL!}/api/update-ipfs-hash?lectureId=${lectureId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({url: data.IpfsHash})
+        })
+        if (cid) {
+          toast.success('New file uploaded successfully!')
+        } else {
+          toast.success('File uploaded successfully!')
+        }
+        setIsDialogOpen(false)
+        router.refresh()
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }, []);
+    
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 

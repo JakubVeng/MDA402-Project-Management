@@ -56,6 +56,20 @@ export const addLecture = async(lecture: Lecture) => {
   return {};
 }
 
+export const editLecture = async(lecture: Lecture) => {
+    await db.update(lectures)
+        .set({orderedItem: lecture.orderedItem,
+            name: lecture.name,
+            description: lecture.description,
+            isAvailable: lecture.isAvailable,
+            url: lecture.url
+        })
+        .where(eq(lectures.id, lecture.id))
+    
+    revalidatePath('/lectures');
+    return {};
+}
+
 export const editIsAvailable = async({ lectureId, isAvailable } : {lectureId: number, isAvailable: boolean}) => {
     await db.update(lectures)
         .set({ isAvailable: !isAvailable })
@@ -70,6 +84,15 @@ export const addCloudUrl = async({ lectureId, url } : {lectureId: number, url: s
         .set({url: url})
         .where(eq(lectures.id, lectureId))
     
-        revalidatePath('/lectures');
+        revalidatePath(`/lectures/${lectureId}`);
+    return {};
+}
+
+export const deleteCloudUrl = async(lectureId: number) => {
+    await db.update(lectures)
+        .set({url: null})
+        .where(eq(lectures.id, lectureId))
+    
+        revalidatePath(`/lectures/${lectureId}`);
     return {};
 }

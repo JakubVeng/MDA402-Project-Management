@@ -29,7 +29,7 @@ async function isFileinFolder(fileName: string) {
         console.log('Error checking file:', error);
       }
 }
-
+/*
 async function getFilePath(lectureId: number) {
     const url = `${process.env.NEXT_PUBLIC_URL!}/api/pinata/files?lectureId=${lectureId}`
     try {
@@ -47,8 +47,7 @@ async function getFilePath(lectureId: number) {
         console.log('Error checking file:', error);
       }
 }
-
-/*                
+                
 {editor ? (
     <UploadLectureDialog>
         Dropzone name={lecture} />
@@ -67,7 +66,7 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
 
     const lectureFromDB = await getLecture(parseInt(lecture))
     const dashedName = lectureFromDB[0].name.toLowerCase().replace(/\s+/g, '-');
-    const lectureUrl = lectureFromDB[0].url + '/' + dashedName + '.pdf'
+    const lectureUrl = `https://${process.env.NEXT_PUBLIC_GATEWAY_URL!}/ipfs/${lectureFromDB[0].url}?pinataGatewayToken=71aEAgD7CVIHuOeY2vsJG8vkShgDOPqyW12oqiCoxBCKLX2MReI_y8mf1ln_r8Qo`;
 
     console.log(lectureFromDB[0].url)
 
@@ -76,10 +75,6 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
     if (session?.user?.email) {
         editor = admin_emails.includes(session.user.email)
     }
-
-    const pathToPdf = await getFilePath(parseInt(lecture))
-    //const fileName = `${lecture}.pdf`
-    //const fileExists = await isFileinFolder(fileName)
 
     return (
         <div className="flex flex-col justify-center items-center mt-10 w-screen space-y-6">
@@ -92,13 +87,13 @@ export default async function LectureDetailsPage(props: { params: LectureParams 
                     Back
                 </Link>
                 {editor ? (
-                    <UploadLectureDialog>
-                        <Dropzone name={dashedName} lectureId={parseInt(lecture)} />
-                    </UploadLectureDialog>
+                    <UploadLectureDialog name={dashedName} lectureId={parseInt(lecture)} cid={lectureFromDB[0].url} />
                 ) : null}
             </div>
-            {pathToPdf && typeof pathToPdf !== "string" ? (
-                <PdfViewer file={lectureFromDB[0].url ? lectureFromDB[0].url : ''} />
+            {lectureFromDB[0].url ? (
+                <div>
+                    <PdfViewer file={lectureUrl} />
+                </div>
             ) : (
                 <p>No file uploaded yet.</p>
             )}

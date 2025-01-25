@@ -73,6 +73,14 @@ export const LectureSnippet = ({lecture, editor}: LectureSnippetProps) => {
                         <span>Accessible by students:</span>
                         <IsAvailableButton lecture={lecture} />
                     </div>
+                    <div className="flex flex-row space-x-4">
+                         <AddLectureDialog initialData={lecture}>
+                            <AddLectureForm initialData={lecture}/>
+                        </AddLectureDialog>
+                        <DeleteDialog>
+                            <DeleteLecture lecture={lecture} />
+                        </DeleteDialog>
+                    </div>
                 </div>
             )}
         </div>

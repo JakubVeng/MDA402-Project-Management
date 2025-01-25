@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { pinata } from "@/utils/config"
-import { addCloudUrl } from "@/components/lectures/action";
 import fs from "fs/promises";
 import path from "path";
 import fetch from "node-fetch";
@@ -10,84 +9,70 @@ import { lectures } from "@/db/schema/lectures";
 
 export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    const contentType = request.headers.get("content-type");
 
-    const lectureIdUrl = searchParams.get('lectureId');
-    const lectureId = lectureIdUrl ? parseInt(lectureIdUrl) : 0
-
-    if (lectureId === 0) {
+    // Check if the request has multipart form data
+    if (!contentType || !contentType.includes("multipart/form-data")) {
       return NextResponse.json(
-        { error: "LectureId not provided" },
-        { status: 420 }
-      );
-    } 
-
-    const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
-    const uploadData = await pinata.upload.file(file)
-    const signedUrl = await pinata.gateways.createSignedURL({
-		  cid: uploadData.cid,
-		  expires: 3600,
-	  });
-    await addCloudUrl({ lectureId: lectureId, url: signedUrl });
-    return NextResponse.json(signedUrl, { status: 200 });
-  } catch (e) {
-    console.log(e);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(req: NextRequest) {
-  try {
-    const url = new URL(req.url);
-    const lectureId = url.searchParams.get("lectureId");
-
-    if (!lectureId) {
-      return NextResponse.json(
-        { error: "Missing lectureId query parameter" },
+        { error: "Invalid content type. Expected multipart/form-data." },
         { status: 400 }
       );
     }
 
-    const lecture = await db
-      .select()
-      .from(lectures)
-      .where(eq(lectures.id, Number(lectureId)))
-      .execute();
+    // Get the form data from the request
+    const formData = await request.formData();
+    const file = formData.get("file") as File;
 
-    if (!lecture || lecture.length === 0 || !lecture[0].url) {
+    if (!file) {
       return NextResponse.json(
-        { error: "Lecture not found or URL missing" },
-        { status: 404 }
+        { error: "No file found in the request body." },
+        { status: 400 }
       );
     }
 
-    const fileUrl = lecture[0].url;
+    // Upload the file to Pinata
+    const result = await pinata.upload.file(file);
 
-    const response = await fetch(fileUrl);
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch the file from the URL" },
-        { status: 500 }
-      );
-    }
-
-    const tempDir = path.join(process.cwd(), "tmp");
-    await fs.mkdir(tempDir, { recursive: true }); 
-    const tempFilePath = path.join(tempDir, `${lectureId}_${Date.now()}.pdf`);
-    const fileBuffer = await response.buffer();
-    await fs.writeFile(tempFilePath, fileBuffer);
-
-    return NextResponse.json({ message: tempFilePath }, { status: 200 });
+    // Return the response
+    return NextResponse.json({
+      message: "File uploaded successfully!",
+      IpfsHash: result.IpfsHash,
+      PinSize: result.PinSize,
+      Timestamp: result.Timestamp,
+    });
   } catch (error) {
-    console.error("Error handling request:", error);
+    console.error("Error uploading file:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Failed to upload file to Pinata."},
       { status: 500 }
     );
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+      const cidParam = searchParams.get("cid");
+  
+      if (!cidParam) {
+        return NextResponse.json(
+          { error: "Valid CID not provided" },
+          { status: 400 }
+        );
+      }
+
+    // Upload the file to Pinata
+    const result = await pinata.unpin([cidParam])
+
+    // Return the response
+    return NextResponse.json({
+      message: "File deleted successfully!",
+    });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return NextResponse.json(
+      { error: "Failed to delete file from Pinata."},
+      { status: 500 }
+    );
+  }
+}
