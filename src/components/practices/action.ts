@@ -17,3 +17,19 @@ export const editIsAvailablePractice = async({ practiceId, isAvailable } : {prac
 export const getAllPractices = async() => {
     return await db.select().from(practices)
 }
+
+export const getPracticeNarrative = async(name: string) => {
+    const data = await db.select({narrative: practices.narrative}).from(practices).where(eq(practices.name, name))
+
+    return data[0] ? data[0].narrative : ''
+}
+
+export const updatePracticeNarrative = async({ text, name } : {text: string, name: string}) => {
+    await db.update(practices)
+        .set({narrative: text})
+        .where(eq(practices.name, name))
+    
+    const urlName = name.toLowerCase().replace(/\s+/g, '-')
+    
+    revalidatePath(`/practices/${urlName}`)
+}

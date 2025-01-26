@@ -12,6 +12,8 @@ import PDMTable from "@/components/gantt-chart/pdm-table";
 import { GanttTaskProvider } from "@/components/gantt-chart/gantt-practice-provider";
 import GanttPracticeTable from "@/components/gantt-chart/gantt-practice-table";
 import { GanttPractice } from "@/components/gantt-chart/gantt-practice";
+import { getPracticeNarrative } from "@/components/practices/action";
+import { EditableTextArea } from "@/components/ui/editable-text-area";
 
 function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[] {
     const businessDaysFrom = (start: Date, days: number): Date => {
@@ -111,6 +113,7 @@ export default async function GanttChartPage() {
     const pertNames = await getPertTaskNames()
     const ganttTasks = await getGanttTaskData()
     const pdmRels = await getPDMRel()
+    const narrative = await getPracticeNarrative('Gantt chart')
 
     const session = await auth();
     const admin_emails = await getAdminEmails()
@@ -129,12 +132,7 @@ export default async function GanttChartPage() {
                 </div>
                 <div className="flex flex-col w-2/3 items-center space-y-4 text-justify">
                     <article>
-                        <p>
-                            Fourth practice will be focused on creating Gantt chart from the estimated task. In the previous practice your goal was to estimate
-                            each work package and thus calculate estimated effort in calendar days. In this practice your goal is to 
-                            create a Gantt chart respecting the estimate effort for each work package and also respecting 
-                            relations from Precedence Programming Method that for most of the couple of tasks specifies relationship between them.
-                        </p>
+                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Gantt chart'}/>
                     </article>
                 </div>
             </div>

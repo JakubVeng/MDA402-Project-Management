@@ -22,10 +22,11 @@ const usePertMutation = () =>
 
 type PertTableProps = {
     className: string,
-    readOnly: boolean
+    readOnly: boolean,
+    fte: number
 }
 
-export default function PertTable({className, readOnly}: PertTableProps) {
+export default function PertTable({className, readOnly, fte}: PertTableProps) {
 
     const { pert } = usePertContext()
 
@@ -55,7 +56,7 @@ export default function PertTable({className, readOnly}: PertTableProps) {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                     {pert.map((data, index) => (
-                        <PertTableRow key={index} pertTask={data} readOnly={readOnly} />
+                        <PertTableRow key={index} pertTask={data} readOnly={readOnly} fte={fte} />
                     ))}
                 </tbody>
             </table>

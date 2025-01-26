@@ -1,10 +1,12 @@
 import { getAdminEmails } from "@/components/lectures/action";
+import { getPracticeNarrative } from "@/components/practices/action";
 import { getAllCriteria, getProjects } from "@/components/standards-approaches/action";
 import { AddProjectDialog } from "@/components/standards-approaches/add-project-dialog";
 import { AddProjectForm } from "@/components/standards-approaches/add-project-form";
 import ComparisonTable from "@/components/standards-approaches/compare-table";
 import { ProjectSnippet } from "@/components/standards-approaches/project-snippet";
 import { ProjectSnippetDnd } from "@/components/standards-approaches/project-snippet-dnd";
+import { EditableTextArea } from "@/components/ui/editable-text-area";
 import { auth } from "@/server/auth";
 
 
@@ -12,6 +14,7 @@ export default async function StandardsAndApproachesPage() {
 
     const projects = await getProjects()
     const criterias = await getAllCriteria()
+    const narrative = await getPracticeNarrative('Standards and approaches')
 
     const session = await auth();
     const admin_emails = await getAdminEmails()
@@ -30,9 +33,7 @@ export default async function StandardsAndApproachesPage() {
                 </div>
                 <div className="flex flex-col w-2/3 items-center space-y-4">
                     <article>
-                        <p>First practice will focus on the seclection of appropiate Project Management Standard as well as 
-                        SDLC approach based on the nature of the project. First practice will focus on the seclection of 
-                        appropiate Project Management Standard as well as SDLC approach based on the nature of the project.</p>
+                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Standards and approaches'}/>
                     </article>
                 </div>
             </div>

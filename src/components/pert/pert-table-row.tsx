@@ -11,6 +11,7 @@ import { toast } from "sonner";
 type PertTableRowProps = {
     pertTask: PertTaskDetail;
     readOnly: boolean;
+    fte: number;
 }
 
 const calculateTe = (o: number, m: number, p: number) => {
@@ -55,7 +56,7 @@ const useAddAssigneeMutation = () =>
             },
         });
 
-export default function PertTableRow({ pertTask, readOnly }: PertTableRowProps) {
+export default function PertTableRow({ pertTask, readOnly, fte }: PertTableRowProps) {
 
     const {pert, setPert} = usePertContext()
 
@@ -200,7 +201,7 @@ export default function PertTableRow({ pertTask, readOnly }: PertTableRowProps) 
                 </td>
                 {index === 0 && (
                     <td className={`px-6 whitespace-nowrap text-center text-sm font-medium text-gray-900 bg-[#d3d3ff]`} rowSpan={pertTask.assignments.length}>
-                        {(biggestContribution(pertTask.assignments)*calculateTe(pertTask.o, pertTask.m, pertTask.p)*1.15).toFixed(2)}
+                        {(biggestContribution(pertTask.assignments)*calculateTe(pertTask.o, pertTask.m, pertTask.p)*(1+fte)).toFixed(2)}
                     </td>
                 )}
             </tr>
