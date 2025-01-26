@@ -10,7 +10,7 @@ import { updatePracticeNarrative } from "../practices/action";
 type EditableTextAreaProps = {
     text: string;
     type1: 'lectures' | 'practices' | null;
-    practiceName: 'Standards and approaches' | 'WBS' | 'Pert' | 'Gantt chart' | null;
+    practiceName: 'Standards and approaches' | 'WBS' | 'PERT' | 'Gantt chart' | null;
 };
 
 const useUpdateNarrativeMutation = () =>
