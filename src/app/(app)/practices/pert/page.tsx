@@ -35,7 +35,11 @@ export default async function PERTPage() {
                 </div>
                 <div className="flex flex-col w-2/3 items-center space-y-4 text-justify">
                     <article>
-                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Pert'}/>
+                        {editor ? (
+                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Pert'}/>
+                        ) : (
+                            <p>{narrative ? narrative : ''}</p>
+                        )}
                     </article>
                 </div>
                 <FTEInput fte={fte ? fte : 0.15}/>

@@ -25,7 +25,11 @@ export default async function Practices() {
                 <div className='flex flex-col space-y-6'>
                     <h2 className="text-[#0101bf] text-3xl font-bold">General information</h2>
                     <article>
-                        <EditableTextArea text={narrative ? narrative : ''} type1='practices' practiceName={null}/>
+                    {editor ? (
+                            <EditableTextArea text={narrative ? narrative : ''} type1='practices' practiceName={null}/>
+                        ) : (
+                            <p>{narrative ? narrative : ''}</p>
+                        )}
                     </article>
                 </div>
                 <div className='flex flex-col py-4 space-y-6'>
