@@ -1,15 +1,17 @@
 import {auth} from "@/server/auth";
 
-import { getAdminEmails, getAllLectures } from '@/components/lectures/action';
+import { getAdminEmails, getAllLectures, getNarrative } from '@/components/lectures/action';
 import { getAllPractices } from "@/components/practices/action";
 import { PracticeSnippet } from "@/components/practices/practice-snippet";
 import { RightSidebarPractice } from "@/components/practices/right-side-bar-practice";
+import { EditableTextArea } from "@/components/ui/editable-text-area";
 
 
 export default async function Practices() {
     const practices = await getAllPractices()
     const session = await auth();
     const admin_emails = await getAdminEmails()
+    const narrative = await getNarrative('practices')
 
     let editor = false
 
@@ -23,7 +25,7 @@ export default async function Practices() {
                 <div className='flex flex-col space-y-6'>
                     <h2 className="text-[#0101bf] text-3xl font-bold">General information</h2>
                     <article>
-                        On this place you can find all relevant information about the course organization, attendance and also assesment.
+                        <EditableTextArea text={narrative ? narrative : ''} type1='practices' practiceName={null}/>
                     </article>
                 </div>
                 <div className='flex flex-col py-4 space-y-6'>

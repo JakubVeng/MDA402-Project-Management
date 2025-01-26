@@ -8,6 +8,7 @@ import { Lecture } from "@/db/schema/lectures";
 import { users } from "@/db/schema/users";
 import { userRoles } from "@/db/schema/users-roles";
 import { userToRoles } from "@/db/schema/user-to-roles";
+import { narrative } from "@/db/schema/narrative";
 
 export const getAllLectures = async() => {
     return await db.select().from(lectures).orderBy(asc(lectures.orderedItem))
@@ -95,4 +96,18 @@ export const deleteCloudUrl = async(lectureId: number) => {
     
         revalidatePath(`/lectures/${lectureId}`);
     return {};
+}
+
+export const getNarrative = async(type: string) => {
+    const data = await db.select({narrative: narrative.narrative}).from(narrative).where(eq(narrative.type, type))
+
+    return data[0] ? data[0].narrative : ''
+}
+
+export const updateNarrative = async({ text, type } : {text: string, type: string}) => {
+    await db.update(narrative)
+        .set({narrative: text})
+        .where(eq(narrative.type, type))
+    
+    revalidatePath(`/${type}`)
 }

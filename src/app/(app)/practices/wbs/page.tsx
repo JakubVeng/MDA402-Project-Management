@@ -1,5 +1,7 @@
 import { DeleteDialog } from "@/components/delete-dialog";
 import { getAdminEmails } from "@/components/lectures/action";
+import { getPracticeNarrative } from "@/components/practices/action";
+import { EditableTextArea } from "@/components/ui/editable-text-area";
 import { checkLevel0Node, checkWBS, getWPWithSubWPs } from "@/components/wbs/action";
 import { AddWBS } from "@/components/wbs/add-wbs-to-db";
 import { CreateLevel0Form } from "@/components/wbs/create-level0";
@@ -14,6 +16,7 @@ import { auth } from "@/server/auth";
 export default async function WBSPage() {
 
     const wps = await getWPWithSubWPs()
+    const narrative = await getPracticeNarrative('WBS')
 
     const level0node = await checkLevel0Node()
     console.log(level0node)
@@ -33,10 +36,9 @@ export default async function WBSPage() {
                 <div className="flex justify-center">
                     <h2 className="text-[#0101bf] text-3xl font-bold">Create WBS</h2>
                 </div>
-                <div className="flex flex-col w-2/3 items-center space-y-4 text-justify">
+                <div className="flex flex-col w-2/3 space-y-4 text-justify">
                     <article>
-                        <p>Second practice will focus on constructing a WBS (work breakdown structure). You can find project domain description 
-                        in form of the discussion between client and a project manager. Your goal is to create WBS based on that. </p>
+                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'WBS'}/>
                     </article>
                 </div>
                 <div className="flex flex-col w-2/3 items-start justify-start">

@@ -11,39 +11,6 @@ import {FormInput} from "@/components/form-input";
 import { Lecture } from '@/db/schema/lectures';
 import { Button } from '../button';
 
-async function renameFileInFolder(fileName: string, newFileName: string) {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName + '&newfilename=' + newFileName;
-    try {
-        const response = await fetch(url, {method: 'PUT'});
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error);
-        }
-        
-        } catch (error) {
-            console.log('Error checking file:', error);
-        }
-}
-
-async function isFileinFolder(fileName: string) {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/file?filename=`+ fileName;
-    try {
-        const response = await fetch(url, {method: 'GET'});
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch file existence data.');
-        }
-        
-        const data = await response.json();
-
-        return data.exists;
-    
-      } catch (error) {
-        console.log('Error checking file:', error);
-      }
-}
-
 const useAddLectureMutation = () =>
     useMutation({
         mutationFn: async (data: AddLectureFormSchema) => {

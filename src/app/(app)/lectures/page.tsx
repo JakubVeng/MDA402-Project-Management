@@ -1,16 +1,22 @@
 import {auth} from "@/server/auth";
 
-import { getAdminEmails, getAllLectures } from '@/components/lectures/action';
+import { getAdminEmails, getAllLectures, getNarrative } from '@/components/lectures/action';
 import { LectureSnippet } from '@/components/lectures/lecture-snippet2'
 import { RightSidebar } from '@/components/lectures/right-side-bar';
 import { AddLectureDialog } from "@/components/lectures/add-lecture-dialog";
 import { AddLectureForm } from "@/components/lectures/add-lecture-form";
+import { EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
+import React from 'react'
+import { EditableTextArea } from "@/components/ui/editable-text-area";
 
 
 export default async function Lectures() {
     const lectures = await getAllLectures()
     const session = await auth();
     const admin_emails = await getAdminEmails()
+    const narrative = await getNarrative('lectures')
+    console.log(narrative)
 
     let editor = false
 
@@ -24,7 +30,7 @@ export default async function Lectures() {
                 <div className='flex flex-col space-y-6'>
                     <h2 className="text-[#0101bf] text-3xl font-bold">General information</h2>
                     <article>
-                        On this place you can find all relevant information about the course organization, attendance and also assesment.
+                        <EditableTextArea text={narrative ? narrative : ''} type1='lectures' practiceName={null}/>
                     </article>
                 </div>
                 <div className='flex flex-col py-4 space-y-6'>

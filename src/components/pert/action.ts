@@ -8,6 +8,7 @@ import { PertPracticeDetail, PertTaskDetail, PracticeAllocation } from "./type";
 import { workPackages } from "@/db/schema/work-packages";
 import { allocations, Allocation } from "@/db/schema/allocations";
 import { Router } from "next/router";
+import { practices } from "@/db/schema/practices";
 
 export const getPertTaskData = async (): Promise<PertTaskDetail[]> => {
     const pertTasksData = await db
@@ -51,7 +52,7 @@ export const getPertTaskData = async (): Promise<PertTaskDetail[]> => {
     }));
 };
 
-export const getPertPracticeData = async (): Promise<PertPracticeDetail[]> => {
+export const getPertPracticeData = async (fte: number): Promise<PertPracticeDetail[]> => {
     const pertTasksData = await db
         .select({
             id: pertTasks.id,
@@ -97,7 +98,7 @@ export const getPertPracticeData = async (): Promise<PertPracticeDetail[]> => {
             Math.max(max, assignment.perAllo || 0), 0
         );
 
-        const calDays = parseFloat((maxPerAllo * 1.15).toFixed(2));
+        const calDays = parseFloat((maxPerAllo * (1+fte)).toFixed(2));
 
         return {
             id: task.id,
@@ -153,4 +154,16 @@ export const deleteAssignee = async(allocationID: number) => {
 
     revalidatePath('/practices/pert')
     return {}
+}
+
+export const getFTE = async() => {
+    const data = await db.select({fte: practices.fte}).from(practices).where(eq(practices.name, 'Pert'))
+
+    return data[0] ? data[0].fte : 0.15
+}
+
+export const updateFTE = async(fte: number) => {
+    await db.update(practices).set({fte: fte}).where(eq(practices.name, 'Pert'))
+
+    revalidatePath('/practices/pert')
 }
