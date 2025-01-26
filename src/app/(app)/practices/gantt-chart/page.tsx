@@ -132,7 +132,11 @@ export default async function GanttChartPage() {
                 </div>
                 <div className="flex flex-col w-2/3 items-center space-y-4 text-justify">
                     <article>
-                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Gantt chart'}/>
+                        {editor ? (
+                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Gantt chart'}/>
+                        ) : (
+                            <p>{narrative ? narrative : ''}</p>
+                        )}
                     </article>
                 </div>
             </div>

@@ -33,7 +33,11 @@ export default async function StandardsAndApproachesPage() {
                 </div>
                 <div className="flex flex-col w-2/3 items-center space-y-4">
                     <article>
-                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Standards and approaches'}/>
+                        {editor ? (
+                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Standards and approaches'}/>
+                        ) : (
+                            <p>{narrative ? narrative : ''}</p>
+                        )}
                     </article>
                 </div>
             </div>

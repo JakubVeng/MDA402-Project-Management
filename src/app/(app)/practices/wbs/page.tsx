@@ -38,7 +38,11 @@ export default async function WBSPage() {
                 </div>
                 <div className="flex flex-col w-2/3 space-y-4 text-justify">
                     <article>
-                        <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'WBS'}/>
+                        {editor ? (
+                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'WBS'}/>
+                        ) : (
+                            <p>{narrative ? narrative : ''}</p>
+                        )}
                     </article>
                 </div>
                 <div className="flex flex-col w-2/3 items-start justify-start">
