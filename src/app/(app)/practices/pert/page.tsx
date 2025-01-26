@@ -14,7 +14,7 @@ import { auth } from "@/server/auth";
 export default async function PERTPage() {
 
     const pertTasks = await getPertTaskData()
-    const narrative = await getPracticeNarrative('Pert')
+    const narrative = await getPracticeNarrative('PERT')
     const fte = await getFTE();
     const pertPractices = await getPertPracticeData(fte ? fte : 0.15)
 
@@ -36,7 +36,7 @@ export default async function PERTPage() {
                 <div className="flex flex-col w-2/3 items-center space-y-4 text-justify">
                     <article>
                         {editor ? (
-                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'Pert'}/>
+                            <EditableTextArea text={narrative ? narrative : ''} type1={null} practiceName={'PERT'}/>
                         ) : (
                             <p>{narrative ? narrative : ''}</p>
                         )}
