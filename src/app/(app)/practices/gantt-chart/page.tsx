@@ -33,26 +33,22 @@ function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[
 
     const findTaskById = (id: number) => tasks.find(task => task.id === id);
 
-    // Map of taskId -> startDate, endDate
     const taskDates: Record<number, { startDate: Date; endDate: Date }> = {};
 
-    // Resolve dates for a task recursively
     const resolveDates = (taskId: number): void => {
-        if (taskDates[taskId]) return; // Already calculated
+        if (taskDates[taskId]) return; 
 
         const task = findTaskById(taskId);
         if (!task) throw new Error(`Task with id ${taskId} not found`);
 
-        // Default to starting today
-        let startDate = new Date();
+        let startDate = new Date(2100, 0, 1);
         let endDate = businessDaysFrom(startDate, task.calDays);
 
-        // Handle PDM relationships
         const predecessors = pdm.filter(relation => relation.successorId === taskId);
         for (const relation of predecessors) {
             const predecessorDates = taskDates[relation.predecessorId];
             if (!predecessorDates) {
-                resolveDates(relation.predecessorId); // Resolve predecessor dates
+                resolveDates(relation.predecessorId); 
             }
             const { startDate: predStart, endDate: predEnd } = taskDates[relation.predecessorId];
 
@@ -85,10 +81,8 @@ function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[
         taskDates[taskId] = { startDate, endDate };
     };
 
-    // Resolve all tasks
     tasks.forEach(task => resolveDates(task.id));
 
-    // Map to GanttTask format
     return tasks
         .map(task => ({
             id: task.id,
@@ -103,7 +97,6 @@ function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[
             return tasks.find(t => t.id === a.id)!.calDays - tasks.find(t => t.id === b.id)!.calDays;
         });
 }
-
 
 export default async function GanttChartPage() {
 
