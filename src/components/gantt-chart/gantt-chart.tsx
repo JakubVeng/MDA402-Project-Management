@@ -180,8 +180,7 @@ const TodayButton = ({setWeekOffset, weekOffset}: {
     return weekOffset !== 0 ? (
         <button className={"border-2 border-[#0101bf] bg-[#0101bf] rounded-xl text-white p-4 flex flex-row items-center gap-1 mb-6 h-12 hover:bg-white hover:text-[#0101bf]"}
                 onClick={() => setWeekOffset(0)}>
-            <Clock size={24}/>
-            Today
+            Back to Start
         </button>
     ) : (
         <div className={"mb-6 h-12"}></div>
@@ -189,11 +188,11 @@ const TodayButton = ({setWeekOffset, weekOffset}: {
 }
 
 const calculateWeekDates = (weekOffset: number): Date[] => {
-    const today = new Date();
+    const fixedStart = new Date(2100, 0, 1);
     const startOfWeek = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() + weekOffset * 14
+        fixedStart.getFullYear(),
+        fixedStart.getMonth(),
+        fixedStart.getDate() + weekOffset * 14
     );
 
     const startMonday = new Date(

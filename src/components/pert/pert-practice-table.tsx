@@ -1,85 +1,42 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePertPracticeContext } from "./pert-practice-provider";
 import PertPracticeTableRow from "./pert-practice-row";
 import { PertPracticeDetail, PertTaskDetail } from "./type";
 import { Button } from "../button";
-import { PertProvider } from "./pert-tasks-provider";
-import PertTable from "./pert-table";
 
 const comparePertDetailsWithIntervals = (
-    correctValues: PertPracticeDetail[],
-    pert: PertPracticeDetail[]
-  ) => {
-    if (correctValues) {
-        return correctValues.map(correctTask => {
-            const matchingPertTask = pert.find(task => task.id === correctTask.id);
-        
-            if (!matchingPertTask) {
-              return {
-                isMatch: false
-                }
-            }
-        
-            const teMin = correctTask.te - 2;
-            const teMax = correctTask.te + 2;
-            console.log(matchingPertTask.te, teMin, teMax)
-        
-            const isTeInRange = 
-              matchingPertTask.te >= teMin && matchingPertTask.te <= teMax;
-        
-            const recalculatedAssignments = correctTask.assignments.map(correctAssignment => {
-              const allocation = correctAssignment.allocation;
-              const perAlloMin = teMin * allocation;
-              const perAlloMax = teMax * allocation;
-        
-              return {
-                ...correctAssignment,
-                perAlloMin,
-                perAlloMax,
-              };
-            });
-        
-            const isPerAlloMatch = recalculatedAssignments.every(correctAssignment => {
-              const matchingAssignment = matchingPertTask.assignments.find(
-                assignment => assignment.id === correctAssignment.id
-              );
-              if (!matchingAssignment) return false;
-        
-              const { perAlloMin, perAlloMax } = correctAssignment;
-              console.log(matchingAssignment.perAllo, perAlloMin, perAlloMax)
-              return (
-                matchingAssignment.perAllo >= perAlloMin &&
-                matchingAssignment.perAllo <= perAlloMax
-              );
-            });
+  correctValues: PertPracticeDetail[],
+  pert: PertPracticeDetail[]
+) => {
+  if (!correctValues) {
+    return { isMatch: false };
+  }
 
-            const biggestPerAllo = Math.max(...recalculatedAssignments.map(a => a.perAllo));
-        
-            const calDaysMin = correctTask.calDays - biggestPerAllo*2;
-            const calDaysMax = correctTask.calDays + biggestPerAllo*2;
+  return correctValues.map(correctTask => {
+    const matchingPertTask = pert.find(task => task.id === correctTask.id);
 
-            console.log(matchingPertTask.calDays, calDaysMin, calDaysMax)
-        
-            const isCalDaysInRange = 
-              matchingPertTask.calDays >= calDaysMin &&
-              matchingPertTask.calDays <= calDaysMax;
-        
-            const isMatch = isTeInRange && isPerAlloMatch && isCalDaysInRange;
-        
-            return {
-              isMatch
-            };
-          });
-    } else {
-        const isMatch = false
-        console.log('I am here!')
-        return {
-            isMatch
-        }
+    if (!matchingPertTask) {
+      return { isMatch: false };
     }
+
+    const { o, m, p } = matchingPertTask;
+
+    const oMin = m * 0.5; // 50% less than `m`
+    const oMax = m * 0.9; // 10% less than `m`
+    const pMin = m * 1.5; // 50% more than `m`
+    const pMax = m * 3.0; // 200% more than `m`
+
+    const isOValid = o >= oMin && o <= oMax;
+    const isPValid = p >= pMin && p <= pMax;
+
+    const isMatch = isOValid && isPValid;
+
+    return { isMatch };
+  });
 };
+
 
 type PertPracticeTableProps = {
     correctValues: PertPracticeDetail[],
@@ -93,18 +50,6 @@ export default function PertPracticeTable({correctValues, pertTasks, fte}: PertP
 
     const [isCorrect, setIsCorrect] = useState(false)
     const [show, setShow] = useState(false)
-    const [showAnswer, setShowAnswer] = useState(false)
-
-    useEffect(() => {
-        let timer: NodeJS.Timeout;
-        if (showAnswer) {
-          timer = setTimeout(() => {
-            setIsCorrect(false);
-          }, 1000);
-        }
-
-        return () => clearTimeout(timer);
-      }, [showAnswer]);
 
     return (
         <div className="flex flex-col items-center justify-center mt-8 w-4/5 space-y-4">
