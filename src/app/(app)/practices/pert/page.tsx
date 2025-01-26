@@ -46,7 +46,7 @@ export default async function PERTPage() {
                 </PertProvider>
             ) : (
                 <PertPracticeProvider pertTasks={pertPractices}>
-                    <PertPracticeTable correctValues={pertPractices}  pertTasks={pertTasks}/>
+                    <PertPracticeTable correctValues={pertPractices}  pertTasks={pertTasks} fte={fte ? fte : 0.15}/>
                 </PertPracticeProvider>
             )}
         </div>

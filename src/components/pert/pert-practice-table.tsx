@@ -83,10 +83,11 @@ const comparePertDetailsWithIntervals = (
 
 type PertPracticeTableProps = {
     correctValues: PertPracticeDetail[],
-    pertTasks: PertTaskDetail[]
+    pertTasks: PertTaskDetail[],
+    fte: number
 }
 
-export default function PertPracticeTable({correctValues, pertTasks}: PertPracticeTableProps) {
+export default function PertPracticeTable({correctValues, pertTasks, fte}: PertPracticeTableProps) {
 
     const { pert } = usePertPracticeContext()
 
@@ -153,7 +154,7 @@ export default function PertPracticeTable({correctValues, pertTasks}: PertPracti
                             </Button>
                             {showAnswer ? (
                                 <PertProvider pertTasks={pertTasks}>
-                                    <PertTable className="w-full" readOnly={true} />
+                                    <PertTable className="w-full" readOnly={true} fte={fte} />
                                 </PertProvider>
                             ) : null}
                         </div>
