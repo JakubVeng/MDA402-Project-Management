@@ -42,7 +42,11 @@ export default async function PERTPage() {
                         )}
                     </article>
                 </div>
-                <FTEInput fte={fte ? fte : 0.15}/>
+                {editor ? (
+                    <FTEInput fte={fte ? fte : 0.15}/>
+                ) : (
+                    null
+                )}
             </div>
             {editor ? (
                 <PertProvider pertTasks={pertTasks}>
