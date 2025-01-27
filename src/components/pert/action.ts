@@ -157,13 +157,13 @@ export const deleteAssignee = async(allocationID: number) => {
 }
 
 export const getFTE = async() => {
-    const data = await db.select({fte: practices.fte}).from(practices).where(eq(practices.name, 'Pert'))
+    const data = await db.select({fte: practices.fte}).from(practices).where(eq(practices.name, 'PERT'))
 
     return data[0] ? data[0].fte : 0.15
 }
 
 export const updateFTE = async(fte: number) => {
-    await db.update(practices).set({fte: fte}).where(eq(practices.name, 'Pert'))
+    await db.update(practices).set({fte: fte}).where(eq(practices.name, 'PERT'))
 
     revalidatePath('/practices/pert')
 }

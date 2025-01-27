@@ -16,7 +16,33 @@ export default async function PERTPage() {
     const pertTasks = await getPertTaskData()
     const narrative = await getPracticeNarrative('PERT')
     const fte = await getFTE();
+    const defFte = fte ? fte : 0.15;
     const pertPractices = await getPertPracticeData(fte ? fte : 0.15)
+
+    const emptyPractice = pertPractices.map(practice => {
+        if (practice.id % 3 === 2) {
+            return {
+                ...practice,
+                m: 0,
+                p: 0,
+            };
+        } else if (practice.id % 3 === 1) {
+            return {
+                ...practice,
+                o: 0,
+                p: 0,
+            };
+        } else if (practice.id % 3 === 0) {
+            return {
+                ...practice,
+                o: 0,
+                m: 0,
+            };
+        }
+        return practice;
+    })
+    
+    console.log(pertPractices, emptyPractice)
 
     const session = await auth();
     const admin_emails = await getAdminEmails()
@@ -45,7 +71,7 @@ export default async function PERTPage() {
                 {editor ? (
                     <FTEInput fte={fte ? fte : 0.15}/>
                 ) : (
-                    null
+                    <p className="flex flex-row items-center justify-center gap-2">Administrative overhead = <span className="text-3xl bg-[#0101bf] text-white rounded-lg p-2">{defFte*100}%</span></p>
                 )}
             </div>
             {editor ? (
@@ -53,8 +79,8 @@ export default async function PERTPage() {
                     <PertTable className="w-4/5" readOnly={false} fte={fte ? fte : 0.15}/>
                 </PertProvider>
             ) : (
-                <PertPracticeProvider pertTasks={pertPractices}>
-                    <PertPracticeTable correctValues={pertPractices}  pertTasks={pertTasks} fte={fte ? fte : 0.15}/>
+                <PertPracticeProvider pertTasks={emptyPractice}>
+                    <PertPracticeTable correctValues={pertPractices} />
                 </PertPracticeProvider>
             )}
         </div>
