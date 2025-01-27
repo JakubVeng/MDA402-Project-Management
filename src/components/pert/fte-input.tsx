@@ -37,7 +37,7 @@ export const FTEInput = ({ fte } : FTEInputProps) => {
     }
     return (
         <div className="flex flex-row space-x-8 items-center justify-center">
-            <p className="text-3xl">FTE:</p>
+            <p className="text-xl text-nowrap">Administrative overhead:</p>
             <input
                 type="number"
                 value={initialFTE}
