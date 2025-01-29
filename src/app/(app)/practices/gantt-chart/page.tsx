@@ -94,7 +94,7 @@ function calculateGanttTasks(tasks: GanttPertTask[], pdm: PDMTask[]): GanttTask[
             if (a.startDate.getTime() !== b.startDate.getTime()) {
                 return a.startDate.getTime() - b.startDate.getTime();
             }
-            return tasks.find(t => t.id === a.id)!.calDays - tasks.find(t => t.id === b.id)!.calDays;
+            return a.id - b.id;
         });
 }
 

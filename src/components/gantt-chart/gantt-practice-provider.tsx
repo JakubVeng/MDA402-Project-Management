@@ -1,8 +1,7 @@
 'use client'
 
-import { PDM } from "@/db/schema/pdm";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { GanttTask, GanttTaskOrdered, WP } from "./types";
+import { GanttTaskOrdered, WP } from "./types";
 
 type GanttTaskContextType = {
     ganttTasks: GanttTaskOrdered[],
@@ -24,8 +23,8 @@ export const GanttTaskProvider: React.FC<{ children: ReactNode; wps: WP[] }> = (
     const tasks = wps.map((item, index) => (
         {
             ...item,
-            startDate: new Date(2100, 0, 1),
-            endDate: new Date(2100, 0, 1),
+            startDate: new Date(Date.UTC(2100, 0, 1)),
+            endDate: new Date(Date.UTC(2100, 0, 1)),
             ordered: index+1
         }
     ))

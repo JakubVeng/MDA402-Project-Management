@@ -2,7 +2,6 @@
 
 import { useGanttTaskContext } from "./gantt-practice-provider";
 import { GanttTaskOrdered } from "./types";
-import { format } from 'date-fns';
 
 type GanttPracticeTableRowProps = {
     ganttTask: GanttTaskOrdered;
@@ -16,16 +15,6 @@ export default function GanttPracticeTableRow({ ganttTask }: GanttPracticeTableR
         const newGanttTasks = ganttTasks.map(task => task.id === id ? { ...task, [field]: value } : task)
         setGanttTasks(newGanttTasks);
     };
-
-    const formatDate = (date: Date) => {
-        const formattedDate = [
-            String(date.getDate()).padStart(2, '0'),
-            String(date.getMonth() + 1).padStart(2, '0'),
-            date.getFullYear()
-        ].join('/');
-
-        return formattedDate
-    }
 
     return (
         <tr className="divide-x divide-gray-200">
