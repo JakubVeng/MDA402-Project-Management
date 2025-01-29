@@ -79,8 +79,8 @@ export function EditableTextArea(props: EditableTextAreaProps) {
             <EditTextarea
                 className="rounded-xl w-full"
                 rows={rowNumber()}
-                value={text} // Use local state as the value
-                onChange={(e) => handleChange(e.target.value)}
+                defaultValue={text} // Use local state as the value
+                onSave={(e) => handleChange(e.value)}
             />
         </div>
     );
